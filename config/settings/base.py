@@ -66,6 +66,7 @@ THIRD_PARTY_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'rest_framework',
 ]
 LOCAL_APPS = [
@@ -239,3 +240,15 @@ SOCIALACCOUNT_ADAPTER = 'university_dost.users.adapters.SocialAccountAdapter'
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}

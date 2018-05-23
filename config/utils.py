@@ -33,6 +33,7 @@ def upload_course_cover_path(instance, filename):
         final_filename=final_filename
     )
 
+
 def upload_subject_cover_path(instance, filename):
     name, ext = get_filename_ext(filename)
     final_filename = '{new_filename}{ext}'.format(new_filename=name, ext=ext)
@@ -41,8 +42,26 @@ def upload_subject_cover_path(instance, filename):
     )
 
 
+def upload_question_body_path(instance, filename):
+    name, ext = get_filename_ext(filename)
+    final_filename = '{new_filename}{ext}'.format(new_filename=name, ext=ext)
+    return "images/question_body/{final_filename}".format(
+        final_filename=final_filename
+    )
+
+
 def random_string_generator(size=10, chars=string.ascii_lowercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
+
+
+def unique_code_generator(instance):
+    unique_new_code = random_string_generator(size=5)
+
+    Klass = instance.__class__
+    qs_exists = Klass.objects.filter(unique_code=unique_new_code).exists()
+    if qs_exists:
+        return unique_code_generator(instance)
+    return unique_new_code
 
 
 def unique_slug_generator(instance, new_slug=None):
