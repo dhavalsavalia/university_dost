@@ -19,6 +19,7 @@ urlpatterns = [
         "users/",
         include("university_dost.users.urls", namespace="users"),
     ),
+    path("exams/", include("exams.urls")),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
 ] + static(

@@ -2,7 +2,7 @@ from django.db import models
 from universities.models import Subject
 from django.db.models.signals import pre_save, post_save
 from config.settings.base import AUTH_USER_MODEL
-from config.utils import (unique_code_generator,
+from config.utils import (exam_code_generator,
                           upload_question_body_path)
 
 
@@ -32,17 +32,17 @@ class Exam(models.Model):
     date = models.DateField()
     total_time = models.CharField(max_length=12)
     total_marks = models.IntegerField()
-    unique_code = models.CharField(max_length=12, blank=True, null=True)
+    exam_code = models.CharField(max_length=12, blank=True, null=True)
 
     def __str__(self):
         return self.subject.name + " " + self.term + "-" + self.year
 
 
-def pre_save_create_unique_code(sender, instance, *args, **kwargs):
-    if not instance.unique_code:
-        instance.unique_code = unique_code_generator(instance)
+def pre_save_create_exam_code(sender, instance, *args, **kwargs):
+    if not instance.exam_code:
+        instance.exam_code = exam_code_generator(instance)
 
-pre_save.connect(pre_save_create_unique_code, sender=Exam)
+pre_save.connect(pre_save_create_exam_code, sender=Exam)
 
 
 class Question(models.Model):
@@ -54,6 +54,7 @@ class Question(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE)
     author = models.ForeignKey(
         AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
+    question_code = models.CharField(max_length=128, blank=True, null=True)
     question_number = models.CharField(max_length=128)
     question_body = models.CharField(max_length=1000)
     question_body_image_1 = models.ImageField(
@@ -65,7 +66,7 @@ class Question(models.Model):
     question_type = models.CharField(
         max_length=12, choices=QUESTION_TYPE_CHOICES)
     answer = models.TextField()
-    explanation = models.TextField()
+    explanation = models.TextField(blank=True, null=True)
     marks = models.IntegerField()
     vote = models.IntegerField(default=0)
 
