@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<p><a class="btn btn-default" href="{% url 'app_name_question_list' %}">Question Listing</a></p>
+<table class="table">
+<tr><td>question_number</td><td>{{ object.question_number }}</td></tr>
+<tr><td>question_body</td><td>{{ object.question_body }}</td></tr>
+<tr><td>question_body_image_1</td><td>{{ object.question_body_image_1 }}</td></tr>
+<tr><td>answer</td><td>{{ object.answer }}</td></tr>
+<tr><td>explanation</td><td>{{ object.explanation }}</td></tr>
+<tr><td>marks</td><td>{{ object.marks }}</td></tr>
+<tr><td>vote</td><td>{{ object.vote }}</td></tr>
+</table>
+<a class="btn btn-primary" href="{{object.get_update_url}}">Edit Question</a>
+
+{% endblock %}

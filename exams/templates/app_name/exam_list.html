@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<p><a class="btn btn-default" href="{% url 'app_name_exam_list' %}">Exam Listing</a></p>
+<table class="table">
+<tr>
+<td>ID</td><td>Link</td>
+    <td>month</td>
+    <td>year</td>
+    <td>term</td>
+    <td>date</td>
+    <td>total_time</td>
+    <td>total_marks</td>
+    <td>exam_code</td>
+</tr>
+{% for object in object_list %}
+<tr>
+    <td>{{object.pk}}</td>
+    <td><a href="{{object.get_absolute_url}}">{{object}}</a></td>
+    <td>{{ object.month }}</td>
+    <td>{{ object.year }}</td>
+    <td>{{ object.term }}</td>
+    <td>{{ object.date }}</td>
+    <td>{{ object.total_time }}</td>
+    <td>{{ object.total_marks }}</td>
+    <td>{{ object.exam_code }}</td>
+</tr>
+{% endfor %}
+</table><a class="btn btn-primary" href="{% url 'app_name_exam_create' %}">Create new Exam</a>
+{% endblock %}

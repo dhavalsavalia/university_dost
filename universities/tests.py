@@ -1,71 +1,219 @@
-from django.test import TestCase
-import datetime
+import unittest
+from django.urls import reverse
+from django.test import Client
 from .models import University, Course, Subject
-from exams.models import Exam, Question
+from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
+from django.contrib.contenttypes.models import ContentType
 
 
-class UniversityTestCase(TestCase):
-    """Test case for University"""
+def create_django_contrib_auth_models_user(**kwargs):
+    defaults = {}
+    defaults["username"] = "username"
+    defaults["email"] = "username@tempurl.com"
+    defaults.update(**kwargs)
+    return User.objects.create(**defaults)
+
+
+def create_django_contrib_auth_models_group(**kwargs):
+    defaults = {}
+    defaults["name"] = "group"
+    defaults.update(**kwargs)
+    return Group.objects.create(**defaults)
+
+
+def create_django_contrib_contenttypes_models_contenttype(**kwargs):
+    defaults = {}
+    defaults.update(**kwargs)
+    return ContentType.objects.create(**defaults)
+
+
+def create_university(**kwargs):
+    defaults = {}
+    defaults["name"] = "name"
+    defaults["university_code"] = "university_code"
+    defaults["description"] = "description"
+    defaults["founded"] = "founded"
+    defaults["address"] = "address"
+    defaults["phone"] = "phone"
+    defaults["logo"] = "logo"
+    defaults.update(**kwargs)
+    return University.objects.create(**defaults)
+
+
+def create_course(**kwargs):
+    defaults = {}
+    defaults["name"] = "name"
+    defaults["course_type"] = "course_type"
+    defaults["degree_type"] = "degree_type"
+    defaults["years"] = "years"
+    defaults["description"] = "description"
+    defaults["course_code"] = "course_code"
+    defaults["slug"] = "slug"
+    defaults["cover"] = "cover"
+    defaults.update(**kwargs)
+    if "university" not in defaults:
+        defaults["university"] = create_university()
+    return Course.objects.create(**defaults)
+
+
+def create_subject(**kwargs):
+    defaults = {}
+    defaults["name"] = "name"
+    defaults["year"] = "year"
+    defaults["subject_code"] = "subject_code"
+    defaults["slug"] = "slug"
+    defaults["cover"] = "cover"
+    defaults.update(**kwargs)
+    if "course" not in defaults:
+        defaults["course"] = create_course()
+    return Subject.objects.create(**defaults)
+
+
+class UniversityViewTest(unittest.TestCase):
+    '''
+    Tests for University
+    '''
 
     def setUp(self):
-        """Setting up test case for University - Saurashtra University"""
-        test_university = University.objects.create(name="Saurashtra University",
-                                                    university_code="su",
-                                                    description="The Saurashtra University is one of the significant universities in Gujarat state in India. This university was established on 23 May 1967 in Rajkot city, the administrative headquarters at Rajkot.",
-                                                    founded=datetime.date(
-                                                        1967, 5, 23),
-                                                    address="Saurashtra University Campus, Rajkot, Gujarat 360005",
-                                                    phone="0281 257 8501")
+        self.client = Client()
 
-        test_course = Course.objects.create(university=test_university,
-                                            name="Computer Engineering",
-                                            course_type="full-time",
-                                            degree_type="be",
-                                            years="4",
-                                            description="A computer engineering course",
-                                            course_code="su-ce")
+    def test_list_university(self):
+        url = reverse('universities_university_list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
 
-        test_subject = Subject.objects.create(course=test_course,
-                                              name="Computer Network",
-                                              year="2",
-                                              subject_code="su-ce-cn")
+    def test_create_university(self):
+        url = reverse('universities_university_create')
+        data = {
+            "name": "name",
+            "university_code": "university_code",
+            "description": "description",
+            "founded": "founded",
+            "address": "address",
+            "phone": "phone",
+            "logo": "logo",
+        }
+        response = self.client.post(url, data=data)
+        self.assertEqual(response.status_code, 302)
 
-        test_exam = Exam.objects.create(subject=test_subject,
-                                        month="may",
-                                        year="2018",
-                                        term="summer",
-                                        date=datetime.date(2018, 5, 23),
-                                        total_time="180",
-                                        total_marks=70,
-                                        exam_code="su-ce-cn-001")
+    def test_detail_university(self):
+        university = create_university()
+        url = reverse('universities_university_detail', args=[university.pk, ])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
 
-        test_question = Question.objects.create(exam=test_exam,
-                                        question_code="su-ce-cn-001-01",
-                                        question_number="1-a-1",
-                                        question_body="This is an question!",
-                                        question_type="mcq",
-                                        answer="This is an answer",
-                                        explanation="This doesn't need explanation",
-                                        marks=1,
-                                        vote=1)
+    def test_update_university(self):
+        university = create_university()
+        data = {
+            "name": "name",
+            "university_code": "university_code",
+            "description": "description",
+            "founded": "founded",
+            "address": "address",
+            "phone": "phone",
+            "logo": "logo",
+        }
+        url = reverse('universities_university_update', args=[university.pk, ])
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
 
-    def test_university_name_and_code(self):
-        assert_uni = University.objects.get(university_code="su")
-        self.assertEqual(assert_uni.name, 'Saurashtra University')
 
-    def test_course_name_and_code(self):
-        assert_course = Course.objects.get(course_code="su-ce")
-        self.assertEqual(assert_course.name, 'Computer Engineering')
+class CourseViewTest(unittest.TestCase):
+    '''
+    Tests for Course
+    '''
 
-    def test_subject_name_and_code(self):
-        assert_subject = Subject.objects.get(subject_code="su-ce-cn")
-        self.assertEqual(assert_subject.name, 'Computer Network')
+    def setUp(self):
+        self.client = Client()
 
-    def test_exam_and_code(self):
-        assert_exam = Exam.objects.get(exam_code="su-ce-cn-001")
-        self.assertEqual(assert_exam.month, 'may')
-        self.assertEqual(assert_exam.year, '2018')
+    def test_list_course(self):
+        url = reverse('universities_course_list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
 
-    def test_question_and_code(self):
-        assert_question = Question.objects.get(question_code="su-ce-cn-001-01")
-        self.assertEqual(assert_question.question_body, "This is an question!")
+    def test_create_course(self):
+        url = reverse('universities_course_create')
+        data = {
+            "name": "name",
+            "course_type": "course_type",
+            "degree_type": "degree_type",
+            "years": "years",
+            "description": "description",
+            "course_code": "course_code",
+            "slug": "slug",
+            "cover": "cover",
+            "university": create_university().pk,
+        }
+        response = self.client.post(url, data=data)
+        self.assertEqual(response.status_code, 302)
+
+    def test_detail_course(self):
+        course = create_course()
+        url = reverse('universities_course_detail', args=[course.slug, ])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_course(self):
+        course = create_course()
+        data = {
+            "name": "name",
+            "course_type": "course_type",
+            "degree_type": "degree_type",
+            "years": "years",
+            "description": "description",
+            "course_code": "course_code",
+            "slug": "slug",
+            "cover": "cover",
+            "university": create_university().pk,
+        }
+        url = reverse('universities_course_update', args=[course.slug, ])
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)
+
+
+class SubjectViewTest(unittest.TestCase):
+    '''
+    Tests for Subject
+    '''
+
+    def setUp(self):
+        self.client = Client()
+
+    def test_list_subject(self):
+        url = reverse('universities_subject_list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_create_subject(self):
+        url = reverse('universities_subject_create')
+        data = {
+            "name": "name",
+            "year": "year",
+            "subject_code": "subject_code",
+            "slug": "slug",
+            "cover": "cover",
+            "course": create_course().pk,
+        }
+        response = self.client.post(url, data=data)
+        self.assertEqual(response.status_code, 302)
+
+    def test_detail_subject(self):
+        subject = create_subject()
+        url = reverse('universities_subject_detail', args=[subject.slug, ])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_update_subject(self):
+        subject = create_subject()
+        data = {
+            "name": "name",
+            "year": "year",
+            "subject_code": "subject_code",
+            "slug": "slug",
+            "cover": "cover",
+            "course": create_course().pk,
+        }
+        url = reverse('universities_subject_update', args=[subject.slug, ])
+        response = self.client.post(url, data)
+        self.assertEqual(response.status_code, 302)

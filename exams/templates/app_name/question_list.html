@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<p><a class="btn btn-default" href="{% url 'app_name_question_list' %}">Question Listing</a></p>
+<table class="table">
+<tr>
+<td>ID</td><td>Link</td>
+    <td>question_number</td>
+    <td>question_body</td>
+    <td>question_body_image_1</td>
+    <td>answer</td>
+    <td>explanation</td>
+    <td>marks</td>
+    <td>vote</td>
+</tr>
+{% for object in object_list %}
+<tr>
+    <td>{{object.pk}}</td>
+    <td><a href="{{object.get_absolute_url}}">{{object}}</a></td>
+    <td>{{ object.question_number }}</td>
+    <td>{{ object.question_body }}</td>
+    <td>{{ object.question_body_image_1 }}</td>
+    <td>{{ object.answer }}</td>
+    <td>{{ object.explanation }}</td>
+    <td>{{ object.marks }}</td>
+    <td>{{ object.vote }}</td>
+</tr>
+{% endfor %}
+</table><a class="btn btn-primary" href="{% url 'app_name_question_create' %}">Create new Question</a>
+{% endblock %}

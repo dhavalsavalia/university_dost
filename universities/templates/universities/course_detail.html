@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<p><a class="btn btn-default" href="{% url 'universities_course_list' %}">Course Listing</a></p>
+<table class="table">
+<tr><td>name</td><td>{{ object.name }}</td></tr>
+<tr><td>course_type</td><td>{{ object.course_type }}</td></tr>
+<tr><td>degree_type</td><td>{{ object.degree_type }}</td></tr>
+<tr><td>years</td><td>{{ object.years }}</td></tr>
+<tr><td>description</td><td>{{ object.description }}</td></tr>
+<tr><td>course_code</td><td>{{ object.course_code }}</td></tr>
+<tr><td>slug</td><td>{{ object.slug }}</td></tr>
+<tr><td>cover</td><td>{{ object.cover }}</td></tr>
+</table>
+<a class="btn btn-primary" href="{{object.get_update_url}}">Edit Course</a>
+
+{% endblock %}

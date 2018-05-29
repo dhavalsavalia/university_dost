@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<p><a class="btn btn-default" href="{% url 'app_name_exam_list' %}">Exam Listing</a></p>
+<table class="table">
+<tr><td>month</td><td>{{ object.month }}</td></tr>
+<tr><td>year</td><td>{{ object.year }}</td></tr>
+<tr><td>term</td><td>{{ object.term }}</td></tr>
+<tr><td>date</td><td>{{ object.date }}</td></tr>
+<tr><td>total_time</td><td>{{ object.total_time }}</td></tr>
+<tr><td>total_marks</td><td>{{ object.total_marks }}</td></tr>
+<tr><td>exam_code</td><td>{{ object.exam_code }}</td></tr>
+</table>
+<a class="btn btn-primary" href="{{object.get_update_url}}">Edit Exam</a>
+
+{% endblock %}
