@@ -103,8 +103,8 @@ class Subject(models.Model):
     class Meta:
         ordering = ('-pk',)
 
-    def __unicode__(self):
-        return u'%s' % self.slug
+    def __str__(self):
+        return self.name
 
     def get_absolute_url(self):
         return reverse('universities_subject_detail', args=(self.slug,))

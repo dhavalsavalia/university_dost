@@ -1,6 +1,6 @@
 from . import models
 from . import serializers
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, authentication
 
 
 class UniversityViewSet(viewsets.ModelViewSet):
@@ -8,6 +8,7 @@ class UniversityViewSet(viewsets.ModelViewSet):
 
     queryset = models.University.objects.all()
     serializer_class = serializers.UniversitySerializer
+    authentication_classes = [authentication.TokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
 

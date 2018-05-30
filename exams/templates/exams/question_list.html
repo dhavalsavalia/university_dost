@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<p><a class="btn btn-default" href="{% url 'app_name_question_list' %}">Question Listing</a></p>
+<p><a class="btn btn-default" href="{% url 'exams_question_list' %}">Question Listing</a></p>
 <table class="table">
 <tr>
 <td>ID</td><td>Link</td>
@@ -26,5 +26,5 @@
     <td>{{ object.vote }}</td>
 </tr>
 {% endfor %}
-</table><a class="btn btn-primary" href="{% url 'app_name_question_create' %}">Create new Question</a>
+</table><a class="btn btn-primary" href="{% url 'exams_question_create' %}">Create new Question</a>
 {% endblock %}

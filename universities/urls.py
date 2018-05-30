@@ -1,12 +1,12 @@
 from django.urls import path, include
 from rest_framework import routers
 
+
 from . import api
 from . import views
 
 router = routers.DefaultRouter()
 router.register(r'university', api.UniversityViewSet)
-router.register(r'university_list', api.UniversityList)
 router.register(r'course', api.CourseViewSet)
 router.register(r'subject', api.SubjectViewSet)
 

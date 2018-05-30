@@ -4,7 +4,8 @@ Base settings to build other settings files upon.
 
 import environ
 
-ROOT_DIR = environ.Path(__file__) - 3  # (university_dost/config/settings/base.py - 3 = university_dost/)
+# (university_dost/config/settings/base.py - 3 = university_dost/)
+ROOT_DIR = environ.Path(__file__) - 3
 APPS_DIR = ROOT_DIR.path('university_dost')
 
 env = environ.Env()
@@ -63,11 +64,16 @@ DJANGO_APPS = [
 ]
 THIRD_PARTY_APPS = [
     'crispy_forms',
+
+    # AllAuth
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+
+    # DRF
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 LOCAL_APPS = [
     'university_dost.users.apps.UsersConfig',
@@ -209,7 +215,8 @@ FIXTURE_DIRS = (
 # EMAIL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
-EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND',
+                    default='django.core.mail.backends.smtp.EmailBackend')
 
 # ADMIN
 # ------------------------------------------------------------------------------
@@ -225,7 +232,8 @@ MANAGERS = ADMINS
 
 # django-allauth
 # ------------------------------------------------------------------------------
-ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
+ACCOUNT_ALLOW_REGISTRATION = env.bool(
+    'DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
@@ -251,4 +259,11 @@ SOCIALACCOUNT_PROVIDERS = {
             'access_type': 'online',
         }
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASS': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
 }

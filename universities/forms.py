@@ -8,6 +8,9 @@ class UniversityForm(forms.ModelForm):
         model = University
         fields = ['name', 'university_code', 'description',
                   'founded', 'address', 'phone', 'logo']
+        widgets={
+            'founded': forms.TextInput(attrs={'cols': 80, 'rows': 1, 'placeholder': 'YYYY-MM-DD'}),
+        }
 
 
 class CourseForm(forms.ModelForm):

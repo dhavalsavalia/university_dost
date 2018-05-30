@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<p><a class="btn btn-default" href="{% url 'app_name_exam_list' %}">Exam Listing</a></p>
+<p><a class="btn btn-default" href="{% url 'exams_exam_list' %}">Exam Listing</a></p>
 <table class="table">
 <tr><td>month</td><td>{{ object.month }}</td></tr>
 <tr><td>year</td><td>{{ object.year }}</td></tr>
