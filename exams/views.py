@@ -1,6 +1,6 @@
 from django.views.generic import DetailView, ListView, UpdateView, CreateView
 from .models import Exam, Question
-from university.models import University, Course, Subject
+from universities.models import University, Course, Subject
 from .forms import ExamForm, QuestionForm
 
 
