@@ -12,8 +12,7 @@ class UniversityAdminForm(forms.ModelForm):
 
 class UniversityAdmin(admin.ModelAdmin):
     form = UniversityAdminForm
-    list_display = ['name', 'university_code',
-                    'description', 'founded', 'address', 'phone', 'logo']
+    list_display = ['name', 'university_code', 'address', 'phone']
 
 
 admin.site.register(University, UniversityAdmin)
@@ -28,8 +27,8 @@ class CourseAdminForm(forms.ModelForm):
 
 class CourseAdmin(admin.ModelAdmin):
     form = CourseAdminForm
-    list_display = ['name', 'course_type', 'degree_type',
-                    'years', 'description', 'course_code', 'slug', 'cover']
+    list_display = ['name', 'course_code', 'slug']
+    list_filter = ['university']
 
 admin.site.register(Course, CourseAdmin)
 
@@ -43,7 +42,8 @@ class SubjectAdminForm(forms.ModelForm):
 
 class SubjectAdmin(admin.ModelAdmin):
     form = SubjectAdminForm
-    list_display = ['name', 'year', 'subject_code', 'slug', 'cover']
+    list_display = ['name', 'year', 'subject_code', 'course']
+    list_filter = ['course__university', 'year', 'course__name']
 
 
 admin.site.register(Subject, SubjectAdmin)
