@@ -7,6 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth import get_user_model
 from django.contrib.auth import models as auth_models
 from django.db import models as models
+from django.db.models.signals import pre_save, post_save
 from django_extensions.db import fields as extension_fields
 from config.utils import (upload_university_logo_path,
                           upload_university_cover_path,
@@ -31,6 +32,7 @@ class University(models.Model):
 
     class Meta:
         ordering = ('-pk',)
+        verbose_name_plural = "universities"
 
     def __str__(self):
         return self.name
@@ -75,13 +77,20 @@ class Course(models.Model):
         ordering = ('-pk',)
 
     def __str__(self):
-        return self.name
+        return self.name+"-"+self.university.university_code
 
     def get_absolute_url(self):
         return reverse('universities_course_detail', args=(self.slug,))
 
     def get_update_url(self):
         return reverse('universities_course_update', args=(self.slug,))
+
+
+def course_pre_save_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = unique_slug_generator(instance)
+
+pre_save.connect(course_pre_save_receiver, sender=Course)
 
 
 class Subject(models.Model):
@@ -111,3 +120,10 @@ class Subject(models.Model):
 
     def get_update_url(self):
         return reverse('universities_subject_update', args=(self.slug,))
+
+
+def subject_pre_save_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = unique_slug_generator(instance)
+
+pre_save.connect(subject_pre_save_receiver, sender=Subject)

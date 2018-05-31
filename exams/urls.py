@@ -36,3 +36,12 @@ urlpatterns += (
     path('exams/question/update/<int:pk>/',
          views.QuestionUpdateView.as_view(), name='exams_question_update'),
 )
+
+urlpatterns += (
+    # urls for Write Answer
+    path('write_answers/', views.write_answers,
+         name='write_answers'),
+    path('get_courses/', views.get_courses, name='get_courses'),
+    path('get_subjects/', views.get_subjects, name='get_subjects'),
+    path('get_exams/', views.get_exams, name='get_exams'),
+)
