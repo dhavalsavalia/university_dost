@@ -109,7 +109,7 @@ class Question(models.Model):
         ordering = ('-pk',)
 
     def __str__(self):
-        return str(self.question_number + "-" + self.exam)
+        return self.question_number + " | " + self.exam.term + "-" + self.exam.year
 
     def get_absolute_url(self):
         return reverse('exams_question_detail', args=(self.pk,))
