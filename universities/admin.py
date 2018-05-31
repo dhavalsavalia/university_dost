@@ -14,8 +14,7 @@ class UniversityAdmin(admin.ModelAdmin):
     form = UniversityAdminForm
     list_display = ['name', 'university_code',
                     'description', 'founded', 'address', 'phone', 'logo']
-    readonly_fields = ['name', 'university_code',
-                       'description', 'founded', 'address', 'phone', 'logo']
+
 
 admin.site.register(University, UniversityAdmin)
 
@@ -31,8 +30,6 @@ class CourseAdmin(admin.ModelAdmin):
     form = CourseAdminForm
     list_display = ['name', 'course_type', 'degree_type',
                     'years', 'description', 'course_code', 'slug', 'cover']
-    readonly_fields = ['name', 'course_type', 'degree_type',
-                       'years', 'description', 'course_code', 'slug', 'cover']
 
 admin.site.register(Course, CourseAdmin)
 
@@ -47,6 +44,6 @@ class SubjectAdminForm(forms.ModelForm):
 class SubjectAdmin(admin.ModelAdmin):
     form = SubjectAdminForm
     list_display = ['name', 'year', 'subject_code', 'slug', 'cover']
-    readonly_fields = ['name', 'year', 'subject_code', 'slug', 'cover']
+
 
 admin.site.register(Subject, SubjectAdmin)

@@ -1,72 +1,94 @@
-var currentTab = 0; // Current tab is set to be the first tab (0)
-showTab(currentTab); // Display the crurrent tab
-
-function showTab(n) {
-  // This function will display the specified tab of the form...
-  var x = document.getElementsByClassName("tab");
-  x[n].style.display = "block";
-  //... and fix the Previous/Next buttons:
-  if (n == 0) {
-    document.getElementById("prevBtn").style.display = "none";
-  } else {
-    document.getElementById("prevBtn").style.display = "inline";
-  }
-  if (n == (x.length - 1)) {
-    document.getElementById("nextBtn").innerHTML = "Submit";
-  } else {
-    document.getElementById("nextBtn").innerHTML = "Next";
-  }
-  //... and run a function that will display the correct step indicator:
-  fixStepIndicator(n)
-}
-
-function nextPrev(n) {
-  // This function will figure out which tab to display
-  var x = document.getElementsByClassName("tab");
-  // Exit the function if any field in the current tab is invalid:
-  if (n == 1 && !validateForm()) return false;
-  // Hide the current tab:
-  x[currentTab].style.display = "none";
-  // Increase or decrease the current tab by 1:
-  currentTab = currentTab + n;
-  // if you have reached the end of the form...
-  if (currentTab >= x.length) {
-    // ... the form gets submitted:
-    document.getElementById("regForm").submit();
-    return false;
-  }
-  // Otherwise, display the correct tab:
-  showTab(currentTab);
-}
-
-function validateForm() {
-  // This function deals with validation of the form fields
-  var x, y, i, valid = true;
-  x = document.getElementsByClassName("tab");
-  y = x[currentTab].getElementsByTagName("input");
-  // A loop that checks every input field in the current tab:
-  for (i = 0; i < y.length; i++) {
-    // If a field is empty...
-    if (y[i].value == "") {
-      // add an "invalid" class to the field:
-      y[i].className += " invalid";
-      // and set the current valid status to false
-      valid = false;
+// This handles generation of CSRF token
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
     }
-  }
-  // If the valid status is true, mark the step as finished and valid:
-  if (valid) {
-    document.getElementsByClassName("step")[currentTab].className += " finish";
-  }
-  return valid; // return the valid status
+    return cookieValue;
 }
+var csrftoken = getCookie('csrftoken');
 
-function fixStepIndicator(n) {
-  // This function removes the "active" class of all steps...
-  var i, x = document.getElementsByClassName("step");
-  for (i = 0; i < x.length; i++) {
-    x[i].className = x[i].className.replace(" active", "");
-  }
-  //... and adds the "active" class on the current step:
-  x[n].className += " active";
+
+// This grabs value of #university and call /get_courses/
+// After that it will manipulate the DOM and create options for `course_select`
+$('#university').change(function() {
+
+    callAjax('../get_courses/', {
+            'ui': $(this).val()
+        })
+        .then(function(data) {
+            var course_select = document.getElementById('course_select'),
+                course_option = document.createDocumentFragment();
+            for (i = 0; i < data.length; i++) {
+                var option = document.createElement('option');
+                option.value = data[i].id;
+                option.appendChild(document.createTextNode(data[i].name));
+                course_option.appendChild(option);
+            }
+            course_select.appendChild(course_option);
+        })
+
+});
+
+
+// This grabs value of #course_select and call /get_subjects/
+// After that it will manipulate the DOM and create options for `subject_select`
+$('#course_select').change(function() {
+
+    callAjax('../get_subjects/', {
+            'ci': $(this).val()
+        })
+        .then(function(data) {
+            var subject_select = document.getElementById('subject_select'),
+                subject_option = document.createDocumentFragment();
+            for (i = 0; i < data.length; i++) {
+                var option = document.createElement('option');
+                option.value = data[i].id;
+                option.appendChild(document.createTextNode(data[i].name));
+                subject_option.appendChild(option);
+            }
+            subject_select.appendChild(subject_option);
+        })
+
+});
+
+
+// This grabs value of #subject_select and call /get_exams/
+// After that it will manipulate the DOM and create options for `exams_select`
+$('#subject_select').change(function() {
+
+    callAjax('../get_exams/', {
+            'si': $(this).val()
+        })
+        .then(function(data) {
+            console.log(data);
+            var exams_select = document.getElementById('exams_select'),
+                exam_option = document.createDocumentFragment();
+            for (i = 0; i < data.length; i++) {
+                var option = document.createElement('option');
+                option.value = data[i].id;
+                option.appendChild(document.createTextNode(data[i].name));
+                exam_option.appendChild(option);
+            }
+            exams_select.appendChild(exam_option);
+        })
+
+});
+
+
+// This simple function is my little pet who keeps everything clean
+function callAjax(url, data) {
+    return $.ajax({
+        type: 'GET',
+        url: url,
+        data: data
+    });
 }

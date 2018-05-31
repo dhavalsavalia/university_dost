@@ -1,1 +1,26 @@
-<h1>Start writing answers for us!</h1>
+{% extends 'base.html' %}
+{% load static i18n %}
+{% block css %}
+    <link href="{% static 'css/multistep-form.css' %}" rel="stylesheet">
+{% endblock css %}
+{% block content %}
+    <form id="regForm" action="" method="post">{% csrf_token %}
+        <h1>Start Writing Answers</h1>
+        Select University:
+        <p><select id="university">
+            {% for university in universities %}
+                <option value="{{university.id}}">{{university.name}}</option>
+            {% endfor %}
+        </select></p>
+        Select Course:
+        <p><select id="course_select"></select></p>
+        Select Subject:
+        <p><select id="subject_select"></select></p>
+        Select Exam:
+        <p><select id="exams_select"></select></p>
+        <input type="submit" value="Submit">
+    </form>
+{% endblock content %}
+{% block javascript %}
+    <script type="text/javascript" src="{% static 'js/multistep-form.js' %}"></script>
+{% endblock javascript %}
