@@ -83,7 +83,7 @@ class Question(models.Model):
     # Fields
     question_code = models.CharField(max_length=128, blank=True, null=True)
     question_number = models.CharField(max_length=128)
-    question_body = models.CharField(max_length=1000)
+    question_body = models.TextField()
     question_body_image_1 = models.ImageField(
         upload_to=upload_question_body_path, null=True, blank=True)
     question_body_image_2 = models.ImageField(
@@ -92,7 +92,7 @@ class Question(models.Model):
         upload_to=upload_question_body_path, null=True, blank=True)
     question_type = models.CharField(
         max_length=12, choices=QUESTION_TYPE_CHOICES)
-    answer = models.TextField()
+    answer = models.TextField(blank=True, null=True)
     explanation = models.TextField(blank=True, null=True)
     marks = models.IntegerField()
     vote = models.IntegerField(default=0)
