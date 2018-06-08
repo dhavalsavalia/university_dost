@@ -1,0 +1,5 @@
+{
+    "python.linting.enabled": false,
+    "editor.fontSize": 12,
+    "explorer.openEditors.visible": 0
+}
