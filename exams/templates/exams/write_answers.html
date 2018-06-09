@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static i18n %}
 {% block css %}
-    <link href="{% static 'css/multistep-form.css' %}" rel="stylesheet">
+    <link href="{% static 'css/exams/multistep-form.css' %}" rel="stylesheet">
 {% endblock css %}
 {% block content %}
     <form id="msform" method="post" action="">{% csrf_token %}
@@ -25,7 +25,8 @@
             <h2 class="fs-title">Select University</h2>
             <h3 class="fs-subtitle">This is step 1</h3>
             <div class="styled-select blue semi-square">
-                <select id="university">
+                <select id="university" name="university">
+                    <option selected="true" disabled="disabled">Select University</option>    
                     {% for university in universities %}
                         <option value="{{university.id}}">{{university.name}}</option>
                     {% endfor %}
@@ -39,7 +40,7 @@
             <h2 class="fs-title">Select Course</h2>
             <h3 class="fs-subtitle">We can't do it without course</h3>
             <div class="styled-select blue semi-square">
-                <select id="course_select"></select>
+                <select id="course_select" name="course"></select>
             </div>
             <input type="button" name="previous" class="previous action-button" value="Previous" />
             <input type="button" name="next" class="next action-button" value="Next" />
@@ -50,7 +51,7 @@
             <h2 class="fs-title">Select Subject</h2>
             <h3 class="fs-subtitle">Tell us the subject</h3>
             <div class="styled-select blue semi-square">
-                <select id="subject_select"></select>
+                <select id="subject_select" name="subject"></select>
             </div>
             <input type="button" name="previous" class="previous action-button" value="Previous" />
             <input type="button" name="next" class="next action-button" value="Next" />
@@ -61,7 +62,7 @@
             <h2 class="fs-title">Select Exam</h2>
             <h3 class="fs-subtitle">It's time to select the exam</h3>
             <div class="styled-select blue semi-square">
-                <select id="exams_select"></select>
+                <select id="exams_select" name="exam"></select>
             </div>
             <input type="button" name="previous" class="previous action-button" value="Previous" />
             <input type="submit" name="submit" class="submit action-button" value="Submit" />
@@ -71,5 +72,5 @@
 {% block javascript %}
 <!-- jQuery easing plugin -->
 <script src="http://thecodeplayer.com/uploads/js/jquery.easing.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="{% static 'js/multistep-form.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/exams/multistep-form.js' %}"></script>
 {% endblock javascript %}
