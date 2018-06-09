@@ -33,6 +33,9 @@ $('#university').change(function() {
         .then(function(data) {
             var course_select = document.getElementById('course_select'),
                 course_option = document.createDocumentFragment();
+
+            // Remove previous options
+            document.getElementById("course_select").options.length = 0;
             
             // Create defualt option which is disabled
             var default_option = document.createElement('option');
@@ -65,6 +68,9 @@ $('#course_select').change(function() {
             var subject_select = document.getElementById('subject_select'),
                 subject_option = document.createDocumentFragment();
 
+            // Remove previous options
+            document.getElementById("subject_select").options.length = 0;
+
             // Create defualt option which is disabled
             var default_option = document.createElement('option');
             default_option.selected = "true";
@@ -96,6 +102,9 @@ $('#subject_select').change(function() {
             var exams_select = document.getElementById('exams_select'),
                 exam_option = document.createDocumentFragment();
             
+            // Remove previous options
+            document.getElementById("exams_select").options.length = 0;
+
             // Create defualt option which is disabled
             var default_option = document.createElement('option');
             default_option.selected = "true";
