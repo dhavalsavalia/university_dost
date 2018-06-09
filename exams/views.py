@@ -65,7 +65,7 @@ def get_courses(request):
     """Handler to return JsonResponse of available courses"""
 
     if request.is_ajax():
-        university_id = request.GET.get('ui')
+        university_id = request.POST.get('ui')
         if Course.objects.filter(university_id=university_id).exists():
             courses = Course.objects.filter(
                 university_id=university_id).values('id', 'name')
@@ -83,7 +83,7 @@ def get_subjects(request):
     """Handler to return JsonResponse of available subjects"""
 
     if request.is_ajax():
-        course_id = request.GET.get('ci')
+        course_id = request.POST.get('ci')
         if Subject.objects.filter(course_id=course_id).exists():
             subjects = Subject.objects.filter(
                 course_id=course_id).values('id', 'name')
@@ -100,7 +100,7 @@ def get_subjects(request):
 def get_exams(request):
     """Handler to return JsonResponse of available exams"""
     if request.is_ajax():
-        subject_id = request.GET.get('si')
+        subject_id = request.POST.get('si')
         if Exam.objects.filter(subject_id=subject_id).exists():
             exams = Exam.objects.filter(
                 subject_id=subject_id).values('id', 'month', 'year')

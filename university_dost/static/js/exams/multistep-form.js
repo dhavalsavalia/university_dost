@@ -14,7 +14,13 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-var csrftoken = getCookie('csrftoken');
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        }
+    }
+});
 
 
 // This grabs value of #university and call /get_courses/
@@ -114,9 +120,12 @@ $('#subject_select').change(function() {
 // This simple function is my little pet who keeps everything clean
 function callAjax(url, data) {
     return $.ajax({
-        type: 'GET',
+        type: 'POST',
         url: url,
-        data: data
+        data: data,
+        "beforeSend": function(xhr, settings) {
+            $.ajaxSettings.beforeSend(xhr, settings);
+        },
     });
 }
 
