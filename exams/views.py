@@ -44,12 +44,20 @@ class QuestionUpdateView(UpdateView):
 
 def write_answers(request):
     """Main entry-point to start writing answers"""
-
-    universities = University.objects.all().values(
-        'name', 'university_code', 'id').order_by('name')
-    universities_list = list()
-    for university in universities:
-        universities_list.append(university)
+    if request.method == 'POST':
+        context = {
+            'university': University.objects.get(id=request.POST['university']),
+            'course': Course.objects.get(id=request.POST['course']),
+            'subject': Subject.objects.get(id=request.POST['subject']),
+            'exam': Exam.objects.get(id=request.POST['exam']),
+        }
+        return render(request, 'exams/submit_result.html', context)
+    else:
+        universities = University.objects.all().values(
+            'name', 'university_code', 'id').order_by('name')
+        universities_list = list()
+        for university in universities:
+            universities_list.append(university)
     return render(request, 'exams/write_answers.html', {'universities': universities_list})
 
 

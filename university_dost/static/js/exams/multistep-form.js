@@ -27,6 +27,15 @@ $('#university').change(function() {
         .then(function(data) {
             var course_select = document.getElementById('course_select'),
                 course_option = document.createDocumentFragment();
+            
+            // Create defualt option which is disabled
+            var default_option = document.createElement('option');
+            default_option.selected = "true";
+            default_option.disabled = "disabled";
+            default_option.appendChild(document.createTextNode("Select Course"));
+            course_option.appendChild(default_option);
+
+            // Actual options from API
             for (i = 0; i < data.length; i++) {
                 var option = document.createElement('option');
                 option.value = data[i].id;
@@ -49,6 +58,15 @@ $('#course_select').change(function() {
         .then(function(data) {
             var subject_select = document.getElementById('subject_select'),
                 subject_option = document.createDocumentFragment();
+
+            // Create defualt option which is disabled
+            var default_option = document.createElement('option');
+            default_option.selected = "true";
+            default_option.disabled = "disabled";
+            default_option.appendChild(document.createTextNode("Select Subject"));
+            subject_option.appendChild(default_option);
+
+            // Actual options from API
             for (i = 0; i < data.length; i++) {
                 var option = document.createElement('option');
                 option.value = data[i].id;
@@ -69,9 +87,17 @@ $('#subject_select').change(function() {
             'si': $(this).val()
         })
         .then(function(data) {
-            console.log(data);
             var exams_select = document.getElementById('exams_select'),
                 exam_option = document.createDocumentFragment();
+            
+            // Create defualt option which is disabled
+            var default_option = document.createElement('option');
+            default_option.selected = "true";
+            default_option.disabled = "disabled";
+            default_option.appendChild(document.createTextNode("Select Exam"));
+            exam_option.appendChild(default_option);
+
+            // Actual options from API
             for (i = 0; i < data.length; i++) {
                 var option = document.createElement('option');
                 option.value = data[i].id;
