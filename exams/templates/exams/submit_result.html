@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% block css %}
+    <link href="{% static 'css/exams/submit-result.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+    
+    <ul class="list-group">
+            <p class="lead">Your submission</p>
+            <hr>
+            <li class="list-group-item">University: {{university}}</li>
+            <li class="list-group-item">Course: {{course}}</li>
+            <li class="list-group-item">Subject: {{subject}}</li>
+            <li class="list-group-item">Exam: {{exam}}</li>
+    </ul>
+{% endblock content %}

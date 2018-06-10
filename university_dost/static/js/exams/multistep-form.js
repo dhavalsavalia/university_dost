@@ -14,7 +14,13 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-var csrftoken = getCookie('csrftoken');
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        }
+    }
+});
 
 
 // This grabs value of #university and call /get_courses/
@@ -27,6 +33,18 @@ $('#university').change(function() {
         .then(function(data) {
             var course_select = document.getElementById('course_select'),
                 course_option = document.createDocumentFragment();
+
+            // Remove previous options
+            document.getElementById("course_select").options.length = 0;
+            
+            // Create defualt option which is disabled
+            var default_option = document.createElement('option');
+            default_option.selected = "true";
+            default_option.disabled = "disabled";
+            default_option.appendChild(document.createTextNode("Select Course"));
+            course_option.appendChild(default_option);
+
+            // Actual options from API
             for (i = 0; i < data.length; i++) {
                 var option = document.createElement('option');
                 option.value = data[i].id;
@@ -49,6 +67,18 @@ $('#course_select').change(function() {
         .then(function(data) {
             var subject_select = document.getElementById('subject_select'),
                 subject_option = document.createDocumentFragment();
+
+            // Remove previous options
+            document.getElementById("subject_select").options.length = 0;
+
+            // Create defualt option which is disabled
+            var default_option = document.createElement('option');
+            default_option.selected = "true";
+            default_option.disabled = "disabled";
+            default_option.appendChild(document.createTextNode("Select Subject"));
+            subject_option.appendChild(default_option);
+
+            // Actual options from API
             for (i = 0; i < data.length; i++) {
                 var option = document.createElement('option');
                 option.value = data[i].id;
@@ -69,9 +99,20 @@ $('#subject_select').change(function() {
             'si': $(this).val()
         })
         .then(function(data) {
-            console.log(data);
             var exams_select = document.getElementById('exams_select'),
                 exam_option = document.createDocumentFragment();
+            
+            // Remove previous options
+            document.getElementById("exams_select").options.length = 0;
+
+            // Create defualt option which is disabled
+            var default_option = document.createElement('option');
+            default_option.selected = "true";
+            default_option.disabled = "disabled";
+            default_option.appendChild(document.createTextNode("Select Exam"));
+            exam_option.appendChild(default_option);
+
+            // Actual options from API
             for (i = 0; i < data.length; i++) {
                 var option = document.createElement('option');
                 option.value = data[i].id;
@@ -88,9 +129,12 @@ $('#subject_select').change(function() {
 // This simple function is my little pet who keeps everything clean
 function callAjax(url, data) {
     return $.ajax({
-        type: 'GET',
+        type: 'POST',
         url: url,
-        data: data
+        data: data,
+        "beforeSend": function(xhr, settings) {
+            $.ajaxSettings.beforeSend(xhr, settings);
+        },
     });
 }
 
