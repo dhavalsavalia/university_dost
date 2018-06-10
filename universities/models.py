@@ -62,7 +62,7 @@ class Course(models.Model):
     degree_type = CharField(max_length=32, choices=DEGREE_TYPE_CHOICES)
     years = IntegerField()
     description = TextField()
-    course_code = CharField(max_length=12)
+    course_code = CharField(max_length=128)
     slug = SlugField(blank=True, unique=True)
     cover = ImageField(upload_to=upload_course_cover_path,
                        null=True, blank=True)
@@ -75,6 +75,12 @@ class Course(models.Model):
 
     class Meta:
         ordering = ('-pk',)
+
+    def save(self, *args, **kwargs):
+        if len(self.course_code.split('-')) > 1:
+            self.course_code = self.course_code.split('-')[1]
+        self.course_code = '{}-{}'.format(self.university.university_code, self.course_code)
+        super(Course, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name+"-"+self.university.university_code
@@ -111,6 +117,12 @@ class Subject(models.Model):
 
     class Meta:
         ordering = ('-pk',)
+
+    def save(self, *args, **kwargs):
+        if len(self.subject_code.split('-')) > 2:
+            self.subject_code = self.subject_code.split('-')[2]
+        self.subject_code = '{}-{}'.format(self.course.course_code, self.subject_code)
+        super(Subject, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
