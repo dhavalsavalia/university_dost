@@ -54,16 +54,6 @@ def random_string_generator(size=10, chars=string.ascii_lowercase + string.digit
     return ''.join(random.choice(chars) for _ in range(size))
 
 
-def exam_code_generator(instance):
-    exam_new_code = random_string_generator(size=5)
-
-    Klass = instance.__class__
-    qs_exists = Klass.objects.filter(exam_code=exam_new_code).exists()
-    if qs_exists:
-        return exam_code_generator(instance)
-    return exam_new_code
-
-
 def unique_slug_generator(instance, new_slug=None):
     """
     This is for a Django project and it assumes your instance
