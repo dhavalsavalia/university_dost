@@ -235,7 +235,7 @@ MANAGERS = ADMINS
 ACCOUNT_ALLOW_REGISTRATION = env.bool(
     'DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_EMAIL_REQUIRED = True
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
@@ -245,6 +245,8 @@ ACCOUNT_ADAPTER = 'university_dost.users.adapters.AccountAdapter'
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = 'university_dost.users.adapters.SocialAccountAdapter'
 
+#  My custom allauth config
+ACCOUNT_SIGNUP_FORM_CLASS = 'universities.forms.SignupForm'
 
 # Your stuff...
 # ------------------------------------------------------------------------------
