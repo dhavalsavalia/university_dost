@@ -12,7 +12,13 @@
 
 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
   {% csrf_token %}
-  {{ form|crispy }}
+  <div id="div_id_email" class="form-group"> <label for="id_email" class="col-form-label  requiredField">
+      E-mail<span class="asteriskField">*</span> </label> <div class=""> <input type="email" name="email" placeholder="E-mail address" class="textinput textInput form-control" required id="id_email" /> </div> </div> <div id="div_id_username" class="form-group"> <label for="id_username" class="col-form-label  requiredField">
+      Username<span class="asteriskField">*</span> </label> <div class=""> <input type="text" name="username" placeholder="Username" minlength="1" maxlength="150" class="textinput textInput form-control" required id="id_username" /> </div> </div> <div id="div_id_first_name" class="form-group"> <label for="id_first_name" class="col-form-label  requiredField">
+      First Name<span class="asteriskField">*</span> </label> <div class=""> <input type="text" name="first_name" placeholder="First Name" maxlength="30" class="textinput textInput form-control" required id="id_first_name" /> </div> </div> <div id="div_id_last_name" class="form-group"> <label for="id_last_name" class="col-form-label  requiredField">
+      Last Name<span class="asteriskField">*</span> </label> <div class=""> <input type="text" name="last_name" placeholder="Last Name" maxlength="30" class="textinput textInput form-control" required id="id_last_name" /> </div> </div> <div id="div_id_password1" class="form-group"> <label for="id_password1" class="col-form-label  requiredField">
+      Password<span class="asteriskField">*</span> </label> <div class=""> <input type="password" name="password1" placeholder="Password" class="textinput textInput form-control" required id="id_password1" /> </div> </div> <div id="div_id_password2" class="form-group"> <label for="id_password2" class="col-form-label  requiredField">
+      Password (again)<span class="asteriskField">*</span> </label> <div class=""> <input type="password" name="password2" placeholder="Password (again)" class="textinput textInput form-control" required id="id_password2" /> </div> </div>
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
