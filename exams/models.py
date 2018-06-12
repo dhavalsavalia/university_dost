@@ -1,15 +1,6 @@
 from django.urls import reverse
-from django_extensions.db.fields import AutoSlugField
-from django.db.models import *
-from django.conf import settings
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth import get_user_model
 from config.settings.base import AUTH_USER_MODEL
-from django.db.models.signals import pre_save, post_save
-from django.contrib.auth import models as auth_models
-from django.db import models as models
-from django_extensions.db import fields as extension_fields
+from django.db import models
 from universities.models import Subject
 from config.utils import (upload_question_body_path,
                           random_string_generator,)
@@ -38,16 +29,16 @@ class Exam(models.Model):
     )
 
     # Fields
-    month = CharField(max_length=128, choices=MONTH_CHOICES)
-    year = CharField(max_length=4)
-    term = CharField(max_length=12, choices=TERM_CHOICES)
-    date = DateField()
-    total_time = CharField(max_length=12)
-    total_marks = IntegerField()
-    exam_code = CharField(max_length=128, blank=True, null=True)
+    month = models.CharField(max_length=128, choices=MONTH_CHOICES)
+    year = models.CharField(max_length=4)
+    term = models.CharField(max_length=12, choices=TERM_CHOICES)
+    date = models.DateField()
+    total_time = models.CharField(max_length=12)
+    total_marks = models.IntegerField()
+    exam_code = models.CharField(max_length=128, blank=True, null=True)
 
     # Relationship Fields
-    subject = ForeignKey(
+    subject = models.ForeignKey(
         Subject, on_delete=models.CASCADE
     )
 
@@ -101,10 +92,10 @@ class Question(models.Model):
     vote = models.IntegerField(default=0)
 
     # Relationship Fields
-    exam = ForeignKey(
+    exam = models.ForeignKey(
         Exam, on_delete=models.CASCADE
     )
-    author = ForeignKey(
+    author = models.ForeignKey(
         AUTH_USER_MODEL, blank=True, null=True, on_delete=models.SET_NULL
     )
 

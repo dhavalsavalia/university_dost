@@ -1,6 +1,6 @@
 from django.views.generic import DetailView, ListView, UpdateView, CreateView
 from django.shortcuts import render
-from django.http import JsonResponse, HttpResponseServerError, HttpResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from .models import Exam, Question
 from universities.models import University, Course, Subject
