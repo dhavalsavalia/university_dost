@@ -1,0 +1,17 @@
+
+{% extends 'base.html' %}
+{% load static i18n %}
+{% block css %}
+    <style>
+        .msg {
+            text-align: center;
+        }
+    </style>
+{% endblock css %}
+
+{% block content %}
+<div class="msg">
+    <h1 class="display-3 text-success">Answer submitted successfully!</h1><hr>
+    <p class="lead">Thank you for you contribution!</p>
+</div>
+{% endblock content %}

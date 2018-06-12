@@ -1,0 +1,22 @@
+
+{% extends 'base.html' %}
+{% load static i18n %}
+{% block css %}
+    <link href="{% static 'css/exams/submit-result.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+    <ul class="list-group">
+            <p class="lead">Your submission</p>
+            <hr>
+            <li class="list-group-item">Number: {{question.question_number}}</li>
+            <li class="list-group-item">Question: <hr>{{question.question_body | linebreaks}}</li>
+            <li class="list-group-item">Answer: <hr>
+                <form id="question" method="post" action="{% url 'update_answer' %}">{% csrf_token %}
+                    <input type="hidden" name="qpk" value="{{question.pk}}" /> 
+                    <p><textarea class="form-control" name="answer" id="answer" rows="10"></textarea></p>
+                    <p><input class="btn btn-primary" type="submit" value="Submit"></p>
+                </form>
+            </li>
+    </ul>
+{% endblock content %}

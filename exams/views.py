@@ -1,6 +1,6 @@
 from django.views.generic import DetailView, ListView, UpdateView, CreateView
 from django.shortcuts import render
-from django.http import JsonResponse, HttpResponseServerError
+from django.http import JsonResponse, HttpResponseServerError, HttpResponse
 from .models import Exam, Question
 from universities.models import University, Course, Subject
 from .forms import ExamForm, QuestionForm
@@ -44,12 +44,15 @@ class QuestionUpdateView(UpdateView):
 
 def write_answers(request):
     """Main entry-point to start writing answers"""
+
     if request.method == 'POST':
         context = {
             'university': University.objects.get(id=request.POST['university']),
             'course': Course.objects.get(id=request.POST['course']),
             'subject': Subject.objects.get(id=request.POST['subject']),
             'exam': Exam.objects.get(id=request.POST['exam']),
+            'exam_questions': Question.objects.filter(exam=request.POST['exam'])
+                                                    .order_by('question_code'),
         }
         return render(request, 'exams/submit_result.html', context)
     else:
@@ -58,7 +61,38 @@ def write_answers(request):
         universities_list = list()
         for university in universities:
             universities_list.append(university)
-    return render(request, 'exams/write_answers.html', {'universities': universities_list})
+        context = {'universities': universities_list}
+    return render(request, 'exams/write_answers.html', context)
+
+
+def write_answer(request):
+    """This function handles answers!!!"""
+
+    if request.method == 'POST':
+        qpk = request.POST.get('qpk')
+        question = Question.objects.get(pk=qpk)
+        context = {
+            'question': question
+        }
+        return render(request, 'exams/write_answer.html', context)
+    else:
+        return HttpResponseServerError
+
+
+def update_answer(request):
+    """This function updates answer"""
+
+    if request.method == 'POST':
+        qpk = request.POST.get('qpk')
+        answer = request.POST.get('answer')
+        author = request.user
+        question = Question.objects.get(pk=qpk)
+        question.answer = answer
+        question.author = author
+        question.save()
+        return render(request, 'exams/success.html', {})
+    else:
+        return HttpResponseServerError
 
 
 def get_courses(request):
