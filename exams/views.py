@@ -47,7 +47,8 @@ class QuestionUpdateView(UpdateView):
 def write_answers(request):
     """Main entry-point to start writing answers"""
 
-    if request.user.has_perm('exams.change_question'):      # Check whether user is in "answers_wizard" group
+    if request.user.has_perm('exams.change_question'):
+        # Check whether user is in "answers_wizard" group
         if request.method == 'POST':
             context = {
                 'university': University.objects.get(id=request.POST['university']),
@@ -55,7 +56,7 @@ def write_answers(request):
                 'subject': Subject.objects.get(id=request.POST['subject']),
                 'exam': Exam.objects.get(id=request.POST['exam']),
                 'exam_questions': Question.objects.filter(exam=request.POST['exam'])
-                                                        .order_by('question_code'),
+                .order_by('question_code'),
             }
             return render(request, 'exams/submit_result.html', context)
         else:

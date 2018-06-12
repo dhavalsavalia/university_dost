@@ -30,6 +30,7 @@ class CourseAdmin(admin.ModelAdmin):
     list_display = ['name', 'course_code', 'slug']
     list_filter = ['university']
 
+
 admin.site.register(Course, CourseAdmin)
 
 

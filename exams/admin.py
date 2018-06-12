@@ -16,6 +16,7 @@ class ExamAdmin(admin.ModelAdmin):
                     'total_time', 'total_marks', 'exam_code']
     list_filter = ['term', 'year', 'subject']
 
+
 admin.site.register(Exam, ExamAdmin)
 
 

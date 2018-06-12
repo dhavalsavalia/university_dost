@@ -53,7 +53,7 @@ class Exam(models.Model):
 
     class Meta:
         ordering = ('-pk',)
-    
+
     def save(self, *args, **kwargs):
         if self.exam_code and len(self.exam_code.split('-')) > 3:
             self.exam_code = self.exam_code.split('-')[3]
@@ -116,7 +116,6 @@ class Question(models.Model):
             self.question_code = self.question_code.split('-')[4]
         self.question_code = '{}-{}'.format(self.exam.exam_code, self.question_code)
         super(Question, self).save(*args, **kwargs)
-
 
     def __str__(self):
         return self.question_number + " | " + self.exam.term + "-" + self.exam.year

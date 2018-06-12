@@ -96,6 +96,7 @@ def course_pre_save_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = unique_slug_generator(instance)
 
+
 pre_save.connect(course_pre_save_receiver, sender=Course)
 
 
@@ -137,5 +138,6 @@ class Subject(models.Model):
 def subject_pre_save_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = unique_slug_generator(instance)
+
 
 pre_save.connect(subject_pre_save_receiver, sender=Subject)

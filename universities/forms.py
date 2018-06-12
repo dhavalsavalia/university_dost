@@ -8,7 +8,7 @@ class UniversityForm(forms.ModelForm):
         model = University
         fields = ['name', 'university_code', 'description',
                   'founded', 'address', 'phone', 'logo']
-        widgets={
+        widgets = {
             'founded': forms.TextInput(attrs={'cols': 80, 'rows': 1, 'placeholder': 'YYYY-MM-DD'}),
         }
 
@@ -30,7 +30,7 @@ class SubjectForm(forms.ModelForm):
 
 class SignupForm(forms.Form):
     first_name = forms.CharField(max_length=30, label='First Name',
-                                widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
+                                 widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
     last_name = forms.CharField(max_length=30, label='Last Name',
                                 widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
 
