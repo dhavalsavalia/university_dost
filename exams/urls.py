@@ -44,4 +44,6 @@ urlpatterns += (
     path('get_courses/', views.get_courses, name='get_courses'),
     path('get_subjects/', views.get_subjects, name='get_subjects'),
     path('get_exams/', views.get_exams, name='get_exams'),
+    path('write_answer/', views.write_answer, name='write_answer'),
+    path('update_answer/', views.update_answer, name='update_answer'),
 )
