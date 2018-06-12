@@ -14,8 +14,7 @@ class ExamAdmin(admin.ModelAdmin):
     form = ExamAdminForm
     list_display = ['month', 'year', 'term', 'date',
                     'total_time', 'total_marks', 'exam_code']
-    readonly_fields = ['month', 'year', 'term', 'date',
-                       'total_time', 'total_marks', 'exam_code']
+    list_filter = ['term', 'year', 'subject']
 
 admin.site.register(Exam, ExamAdmin)
 
@@ -31,7 +30,6 @@ class QuestionAdmin(admin.ModelAdmin):
     form = QuestionAdminForm
     list_display = ['question_number', 'question_body',
                     'question_body_image_1', 'answer', 'explanation', 'marks', 'vote']
-    readonly_fields = ['question_number', 'question_body',
-                       'question_body_image_1', 'answer', 'explanation', 'marks', 'vote']
+
 
 admin.site.register(Question, QuestionAdmin)

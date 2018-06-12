@@ -1,0 +1,41 @@
+
+{% extends 'base.html' %}
+{% load static i18n %}
+{% block css %}
+    <style>
+        .msg {
+            text-align: center;
+        }
+
+        ul {
+            list-style: none;
+        }
+        h2 {
+            display: flex;
+            justify-content: space-between;
+          }
+    </style>
+{% endblock css %}
+
+{% block content %}
+<div class="msg">
+    <div>
+        <h1 class="display-3 text-success">Answer submitted successfully!</h1><hr>
+    </div>
+    <p class="lead">Thank you, {{ author.name }} for you contribution!</p>
+</div>
+<div class="submission">
+    <h2><span>Your submission</span><button class="update btn btn-primary" onclick="goBack()">Update Answer</button></h2><hr>
+    <ul class="list-group">
+        <li class="list-group-item"><p class="lead"><strong>Question</strong></p><hr>
+        <p class="question">{{question.question_body | linebreaks}}</p><li>
+        <li class="list-group-item"><p class="lead"><strong>Answer</strong></p><hr>
+        <p class="question">{{question.answer | linebreaks}}</p><li>
+        {% if question.explanation %}
+            <li class="list-group-item"><p class="lead"><strong>Explanation</strong></p><hr>
+            <p class="question">{{question.explanation | linebreaks}}</p><li>
+        {% else %}
+        {% endif %}
+    </ul>
+</div>
+{% endblock content %}

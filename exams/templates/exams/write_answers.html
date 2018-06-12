@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% block css %}
+    <link href="{% static 'css/exams/multistep-form.css' %}" rel="stylesheet">
+{% endblock css %}
+{% block content %}
+    <form id="msform" method="post" action="">{% csrf_token %}
+        <!--
+            This multistep form is originally created by: Atakan Goktepe
+            His codepen account: https://codepen.io/atakan
+            His codepen that I used: https://codepen.io/atakan/pen/gqbIz
+            I give full attribute to him.
+        -->
+        <!-- progressbar -->
+        <ul id="progressbar">
+            <li class="active">University</li>
+            <li>Course</li>
+            <li>Subject</li>
+            <li>Exam</li>
+        </ul>
+        <!-- fieldsets -->
+
+        <!-- Select University -->
+        <fieldset>
+            <h2 class="fs-title">Select University</h2>
+            <h3 class="fs-subtitle">This is step 1</h3>
+            <div class="styled-select blue semi-square">
+                <select id="university" name="university">
+                    <option selected="true" disabled="disabled">Select University</option>    
+                    {% for university in universities %}
+                        <option value="{{university.id}}">{{university.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <input type="button" name="next" class="next action-button" value="Next" />
+        </fieldset>
+
+        <!-- Select Course -->
+        <fieldset>
+            <h2 class="fs-title">Select Course</h2>
+            <h3 class="fs-subtitle">We can't do it without course</h3>
+            <div class="styled-select blue semi-square">
+                <select id="course_select" name="course"></select>
+            </div>
+            <input type="button" name="previous" class="previous action-button" value="Previous" />
+            <input type="button" name="next" class="next action-button" value="Next" />
+        </fieldset>
+
+        <!-- Select Subject -->
+        <fieldset>
+            <h2 class="fs-title">Select Subject</h2>
+            <h3 class="fs-subtitle">Tell us the subject</h3>
+            <div class="styled-select blue semi-square">
+                <select id="subject_select" name="subject"></select>
+            </div>
+            <input type="button" name="previous" class="previous action-button" value="Previous" />
+            <input type="button" name="next" class="next action-button" value="Next" />
+        </fieldset>
+
+        <!-- Select Exam and Submit -->
+        <fieldset>
+            <h2 class="fs-title">Select Exam</h2>
+            <h3 class="fs-subtitle">It's time to select the exam</h3>
+            <div class="styled-select blue semi-square">
+                <select id="exams_select" name="exam"></select>
+            </div>
+            <input type="button" name="previous" class="previous action-button" value="Previous" />
+            <input type="submit" name="submit" class="submit action-button" value="Submit" />
+        </fieldset>
+    </form>
+{% endblock content %}
+{% block javascript %}
+<!-- jQuery easing plugin -->
+<script src="http://thecodeplayer.com/uploads/js/jquery.easing.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="{% static 'js/exams/multistep-form.js' %}"></script>
+{% endblock javascript %}
