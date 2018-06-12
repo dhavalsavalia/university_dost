@@ -1,6 +1,7 @@
 from django.views.generic import DetailView, ListView, UpdateView, CreateView
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponseServerError, HttpResponse
+from django.contrib.auth.decorators import login_required
 from .models import Exam, Question
 from universities.models import University, Course, Subject
 from .forms import ExamForm, QuestionForm
@@ -42,29 +43,34 @@ class QuestionUpdateView(UpdateView):
     form_class = QuestionForm
 
 
+@login_required
 def write_answers(request):
     """Main entry-point to start writing answers"""
 
-    if request.method == 'POST':
-        context = {
-            'university': University.objects.get(id=request.POST['university']),
-            'course': Course.objects.get(id=request.POST['course']),
-            'subject': Subject.objects.get(id=request.POST['subject']),
-            'exam': Exam.objects.get(id=request.POST['exam']),
-            'exam_questions': Question.objects.filter(exam=request.POST['exam'])
-                                                    .order_by('question_code'),
-        }
-        return render(request, 'exams/submit_result.html', context)
+    if request.user.has_perm('exams.change_question'):      # Check whether user is in "answers_wizard" group
+        if request.method == 'POST':
+            context = {
+                'university': University.objects.get(id=request.POST['university']),
+                'course': Course.objects.get(id=request.POST['course']),
+                'subject': Subject.objects.get(id=request.POST['subject']),
+                'exam': Exam.objects.get(id=request.POST['exam']),
+                'exam_questions': Question.objects.filter(exam=request.POST['exam'])
+                                                        .order_by('question_code'),
+            }
+            return render(request, 'exams/submit_result.html', context)
+        else:
+            universities = University.objects.all().values(
+                'name', 'university_code', 'id').order_by('name')
+            universities_list = list()
+            for university in universities:
+                universities_list.append(university)
+            context = {'universities': universities_list}
+        return render(request, 'exams/write_answers.html', context)
     else:
-        universities = University.objects.all().values(
-            'name', 'university_code', 'id').order_by('name')
-        universities_list = list()
-        for university in universities:
-            universities_list.append(university)
-        context = {'universities': universities_list}
-    return render(request, 'exams/write_answers.html', context)
+        return HttpResponse(status=403)
 
 
+@login_required
 def write_answer(request):
     """This function handles answers!!!"""
 
@@ -76,23 +82,26 @@ def write_answer(request):
         }
         return render(request, 'exams/write_answer.html', context)
     else:
-        return HttpResponseServerError
+        return HttpResponse(status=403)
 
 
+@login_required
 def update_answer(request):
-    """This function updates answer"""
+    """This function updates/adds answer"""
 
     if request.method == 'POST':
-        qpk = request.POST.get('qpk')
-        answer = request.POST.get('answer')
-        author = request.user
-        question = Question.objects.get(pk=qpk)
-        question.answer = answer
-        question.author = author
+        question = Question.objects.get(pk=request.POST.get('qpk'))
+        question.answer = request.POST.get('answer')
+        question.explanation = request.POST.get('explanation')
+        question.author = request.user
         question.save()
-        return render(request, 'exams/success.html', {})
+        context = {
+            'author': request.user,
+            'question': question
+        }
+        return render(request, 'exams/success.html', context)
     else:
-        return HttpResponseServerError
+        return HttpResponse(status=403)
 
 
 def get_courses(request):
@@ -110,7 +119,7 @@ def get_courses(request):
             courses_list.append(course)
         return JsonResponse(courses_list, safe=False)
     else:
-        return HttpResponseServerError()
+        return HttpResponse(status=404)
 
 
 def get_subjects(request):
@@ -128,7 +137,7 @@ def get_subjects(request):
             subjects_list.append(subject)
         return JsonResponse(subjects_list, safe=False)
     else:
-        return HttpResponseServerError()
+        return HttpResponse(status=404)
 
 
 def get_exams(request):
@@ -145,4 +154,4 @@ def get_exams(request):
             exam_list.append(exam)
         return JsonResponse(exam_list, safe=False)
     else:
-        return HttpResponseServerError()
+        return HttpResponse(status=404)
