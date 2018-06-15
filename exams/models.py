@@ -36,6 +36,7 @@ class Exam(models.Model):
     total_time = models.CharField(max_length=12)
     total_marks = models.IntegerField()
     exam_code = models.CharField(max_length=128, blank=True, null=True)
+    exam_complete = models.BooleanField(default=False)
 
     # Relationship Fields
     subject = models.ForeignKey(
