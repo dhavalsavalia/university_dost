@@ -14,7 +14,7 @@ def mathjax_scripts():
 
     mathjax_config_file = "TeX-AMS_CHTML"
     url = "{}?config={}".format(mathjax_js_url, mathjax_config_file)
-    load_script_tag = '''<script type="text/javascript" async
+    load_script_tag = '''<script type="text/javascript"
       src="{}">
     </script>'''.format(url)
 
