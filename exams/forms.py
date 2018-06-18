@@ -1,5 +1,6 @@
 from django import forms
 from .models import Exam, Question
+from markdownx.fields import MarkdownxFormField
 
 
 class ExamForm(forms.ModelForm):
@@ -16,3 +17,7 @@ class QuestionForm(forms.ModelForm):
         model = Question
         fields = ['question_number', 'question_body', 'question_body_image_1',
                   'answer', 'explanation', 'marks', 'vote', 'exam', 'author']
+
+
+class AnswerForm(forms.Form):
+    answerfield = MarkdownxFormField()

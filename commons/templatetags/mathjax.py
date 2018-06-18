@@ -12,7 +12,7 @@ def mathjax_scripts():
 
     mathjax_js_url = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js'
 
-    mathjax_config_file = "TeX-AMS_CHTML"
+    mathjax_config_file = "TeX-MML-AM_CHTML"
     url = "{}?config={}".format(mathjax_js_url, mathjax_config_file)
     load_script_tag = '''<script type="text/javascript"
       src="{}">

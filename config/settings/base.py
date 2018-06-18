@@ -74,6 +74,9 @@ THIRD_PARTY_APPS = [
     # DRF
     'rest_framework',
     'rest_framework.authtoken',
+
+    # Markdown
+    'markdownx',
 ]
 LOCAL_APPS = [
     'university_dost.users.apps.UsersConfig',

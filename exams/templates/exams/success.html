@@ -1,41 +1,70 @@
-
 {% extends 'base.html' %}
-{% load static i18n %}
-{% block css %}
-    <style>
-        .msg {
-            text-align: center;
-        }
 
-        ul {
-            list-style: none;
-        }
-        h2 {
-            display: flex;
-            justify-content: space-between;
-          }
-    </style>
-{% endblock css %}
+{% load static i18n mathjax %}
+
+{% block css %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/8.4.1/markdown-it.min.js" integrity="sha256-xPwMubQT+EaVMOh04FjyG49sNwJmmGYpnhWNh4osD5w=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/markdown-it-mathjax@2.0.0/markdown-it-mathjax.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css" integrity="sha256-Ndk1ry+oGNFEaXt4kxlW/SYLbxat1O0DhaDd+lob0SY=" crossorigin="anonymous" /> 
+
+{% mathjax_scripts %}
+<style>
+    .msg {
+        text-align: center;
+    }
+    
+    ul {
+        list-style: none;
+    }
+    
+    h2 {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+{% endblock css %} 
 
 {% block content %}
 <div class="msg">
     <div>
-        <h1 class="display-3 text-success">Answer submitted successfully!</h1><hr>
+        <h1 class="display-3 text-success">Answer submitted successfully!</h1>
+        <hr>
     </div>
     <p class="lead">Thank you, {{ author.name }} for you contribution!</p>
 </div>
 <div class="submission">
-    <h2><span>Your submission</span><button class="update btn btn-primary" onclick="goBack()">Update Answer</button></h2><hr>
+    <h2><span>Your submission</span><button class="update btn btn-primary" onclick="goBack()">Update Answer</button></h2>
+    <hr>
     <ul class="list-group">
-        <li class="list-group-item"><p class="lead"><strong>Question</strong></p><hr>
-        <p class="question">{{question.question_body | linebreaks}}</p><li>
-        <li class="list-group-item"><p class="lead"><strong>Answer</strong></p><hr>
-        <p class="question">{{question.answer | linebreaks}}</p><li>
+        <li class="list-group-item">
+            <p class="lead"><strong>Question</strong></p>
+            <hr>
+            <p class="question">{{question.question_body | linebreaks}}</p>
+        </li>
+        <li class="list-group-item">
+            <p class="lead"><strong>Answer</strong></p>
+            <hr>
+            <p class="question" id="answer" style="display: none;">{{question.answer}}</p>
+            <div class="answer_output markdown-body"></div>
+        </li>
         {% if question.explanation %}
-            <li class="list-group-item"><p class="lead"><strong>Explanation</strong></p><hr>
-            <p class="question">{{question.explanation | linebreaks}}</p><li>
+        <li class="list-group-item">
+            <p class="lead"><strong>Explanation</strong></p>
+            <hr>
+            <p class="question">{{question.explanation | linebreaks}}</p>
+        </li>
         {% else %}
         {% endif %}
     </ul>
 </div>
-{% endblock content %}
+{% endblock content %} {% block javascript %}
+<script>
+    var md = markdownit().use(markdownitMathjax());
+
+    result = md.render($("#answer").text());
+    $("div.answer_output").html(result);
+
+    //reprocess the MathOutput Element
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview3"]);
+</script>
+{% endblock javascript %}

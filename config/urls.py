@@ -25,6 +25,8 @@ urlpatterns = [
     re_path(r"^accounts/email/$", handler404, name="account_email"),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
+
+    re_path(r'^markdownx/', include('markdownx.urls')),
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
 )
