@@ -5,3 +5,21 @@
 .list-group {
     margin: 10%;
 }
+
+.markdownx-preview {
+    display: none;
+}
+
+.input {
+    display: none;
+}
+
+textarea {
+    overflow: hidden;
+    padding: 10px;
+    width: 250px;
+    font-size: 14px;
+    display: block;
+    border-radius: 10px;
+    border: 6px solid #556677;
+}
