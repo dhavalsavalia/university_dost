@@ -13,6 +13,7 @@ def update_answer(request):
         question.answer = request.POST.get('answer')
         question.explanation = request.POST.get('explanation')
         question.author = request.user
+        request.user.questions.add(question)
         question.save()
         context = {
             'author': request.user,

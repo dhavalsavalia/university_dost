@@ -27,7 +27,7 @@ $.ajaxSetup({
 // After that it will manipulate the DOM and create options for `course_select`
 $('#university').change(function() {
 
-    callAjax('../get_courses/', {
+    callAjax("/exams/get_courses/", {
             'ui': $(this).val()
         })
         .then(function(data) {
@@ -61,7 +61,7 @@ $('#university').change(function() {
 // After that it will manipulate the DOM and create options for `subject_select`
 $('#course_select').change(function() {
 
-    callAjax('../get_subjects/', {
+    callAjax("/exams/get_subjects/", {
             'ci': $(this).val()
         })
         .then(function(data) {
@@ -95,7 +95,7 @@ $('#course_select').change(function() {
 // After that it will manipulate the DOM and create options for `exams_select`
 $('#subject_select').change(function() {
 
-    callAjax('../get_exams/', {
+    callAjax("/exams/get_exams/", {
             'si': $(this).val()
         })
         .then(function(data) {
