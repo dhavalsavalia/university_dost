@@ -11,4 +11,6 @@ urlpatterns = [
         view=views.UserDetailView.as_view(),
         name="detail",
     ),
+    path("questions/", view=views.question_list, name="questions"),
+    path("questions/<str:qpk>/", view=views.update_answer),
 ]

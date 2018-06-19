@@ -21,6 +21,10 @@
   <div class="col-sm-12">
     <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
     <!-- Your Stuff: Custom user template urls -->
+    {% if perms.exams.change_question %}
+    <a class="btn btn-primary" href="{% url 'users:questions' %}" role="button">Your Questions</a>
+    {% else %}
+    {% endif %}
   </div>
 
 </div>

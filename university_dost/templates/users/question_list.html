@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% block css %}
+    <link href="{% static 'css/exams/submit-result.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+    <ul class="list-group">
+            <p class="lead">Your submission</p>
+            <hr>
+            <li class="list-group-item">University: {{university}}</li>
+            <li class="list-group-item">Course: {{course}}</li>
+            <li class="list-group-item">Subject: {{subject}}</li>
+            <li class="list-group-item">Exam: {{exam}}</li>
+    </ul>
+    <ul class="list-group">
+        <p class="lead">Questions yet to be answered</p>
+        <hr>
+        {% for exam_question in exam_questions %}
+            <form id="question" method="post" action="{% url 'write_answer' %}">{% csrf_token %}
+                    <input type="hidden" name="qpk" value="{{exam_question.pk}}" /> 
+                    <a onclick="document.getElementById('question').submit();">
+                            <li class="list-group-item"><strong>{{exam_question.question_number}} | {{exam_question.pk}}</strong></li>
+                    </a>
+            </form>
+        {% endfor %}
+    </ul>
+{% endblock content %}
