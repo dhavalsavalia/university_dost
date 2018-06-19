@@ -30,6 +30,35 @@ function autosize() {
     }
 })();
 
+// Not working though
+$.ready(function () {
+    var ELEMENTS = document.getElementsByClassName('markdown-explanation');
+    return Object.keys(ELEMENTS).map(function (key) {
+        var explanation_element = ELEMENTS[key], explanation_element_editor = element.querySelector('.markdown-explanation-editor'), explanation_element_preview = element.querySelector('.markdown-explanation-preview');
+        // Only add the new MarkdownX instance to fields that have no MarkdownX instance yet.
+        if (!explanation_element.hasAttribute('data-markdownx-init')){
+            return new MarkdownX(explanation_element, explanation_element_editor, explanation_element_preview);
+            console.log("success");
+        };
+    });
+});
+
+(function() {
+
+    var mdx = markdownit().use(markdownitMathjax());
+    window.UpdateExplanation = function(TeX) {
+
+        //set the MathOutput HTML
+        document.getElementById("explanation").innerHTML = TeX;
+        result_explanation = mdx.render($("#explanation").text());
+        $("div.output_explanation").html(result_explanation)
+
+        //reprocess the MathOutput Element
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview3"]);
+
+    }
+})();
+
 $('#submit').click(function() {
     $('#question').submit();
 });
