@@ -15,11 +15,14 @@
             <tr>
                 <th><label for="answer">Answer:</label></th>
                 <td>
-                    <div class="markdown_answer">
-                        <textarea onkeyup="UpdateMath(this.value)" name="answer" rows="10" required id="answer" class="form-control markdown_answer_editor" data-markdownx-editor-resizable data-markdownx-urls-path="/markdownx/markdownify/" data-markdownx-upload-urls-path="/markdownx/upload/"
+                    <div class="markdownx">
+                        <textarea onkeyup="UpdateMath(this.value)" name="answer" rows="10" required id="answer" 
+                            class="form-control markdownx-editor" data-markdownx-editor-resizable 
+                            data-markdownx-urls-path="/markdownx/markdownify/" 
+                            data-markdownx-upload-urls-path="/markdownx/upload/"
                             data-markdownx-latency="500">{{question.answer}}</textarea>
 
-                        <div id="preview" class="markdown_answer_preview"></div>
+                        <div id="preview" class="markdownx-preview"></div>
                         <main>
                             <pre class="input"></pre>
                             <hr>
