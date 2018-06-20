@@ -24,9 +24,8 @@
 
                         <div id="preview" class="markdownx-preview"></div>
                         <main>
-                            <pre class="input"></pre>
                             <hr>
-                            <div class="output markdown-body"></div>
+                            <div class="output_answer markdown-body"></div>
                         </main>
                     </div>
                 </td>
@@ -34,16 +33,15 @@
             <tr>
                 <th><label for="explanation">Explanation:</label></th>
                 <td>
-                    <div class="markdown-explanation">
-                        <textarea onkeyup="UpdateExplanation(this.value)" name="explanation" rows="10" required 
-                            id="explanation" class="form-control markdown-explanation-editor" 
+                    <div class="markdownx">
+                        <textarea onkeyup="UpdateExplanation(this.value)" name="explanation" rows="10" 
+                            id="explanation" class="form-control markdownx-editor" 
                             data-markdownx-editor-resizable data-markdownx-urls-path="/markdownx/markdownify/" 
                             data-markdownx-upload-urls-path="/markdownx/upload/"
                             data-markdownx-latency="500">{{question.explanation}}</textarea>
             
-                        <div id="preview" class="markdown-explanation-preview"></div>
+                        <div id="preview" class="markdownx-preview"></div>
                         <main>
-                            <pre class="input_explanation"></pre>
                             <hr>
                             <div class="output_explanation markdown-body"></div>
                         </main>
