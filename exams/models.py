@@ -4,6 +4,7 @@ from django.db import models
 from universities.models import Subject
 from config.utils import (upload_question_body_path,
                           random_string_generator,)
+from markdownx.models import MarkdownxField
 
 
 class Exam(models.Model):
@@ -78,17 +79,11 @@ class Question(models.Model):
     # Fields
     question_code = models.CharField(max_length=128, blank=True, null=True)
     question_number = models.CharField(max_length=128)
-    question_body = models.TextField()
-    question_body_image_1 = models.ImageField(
-        upload_to=upload_question_body_path, null=True, blank=True)
-    question_body_image_2 = models.ImageField(
-        upload_to=upload_question_body_path, null=True, blank=True)
-    question_body_image_3 = models.ImageField(
-        upload_to=upload_question_body_path, null=True, blank=True)
+    question_body = MarkdownxField()
     question_type = models.CharField(
         max_length=12, choices=QUESTION_TYPE_CHOICES)
-    answer = models.TextField(blank=True, null=True)
-    explanation = models.TextField(blank=True, null=True)
+    answer = MarkdownxField(blank=True, null=True)
+    explanation = MarkdownxField(blank=True, null=True)
     marks = models.IntegerField()
     vote = models.IntegerField(default=0)
 
