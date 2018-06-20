@@ -51,7 +51,8 @@
         <li class="list-group-item">
             <p class="lead"><strong>Explanation</strong></p>
             <hr>
-            <p class="question">{{question.explanation | linebreaks}}</p>
+            <p class="question" id="explanation" style="display: none;">{{question.explanation}}</p>
+            <div class="explanation_output markdown-body"></div>
         </li>
         {% else %}
         {% endif %}
@@ -59,12 +60,15 @@
 </div>
 {% endblock content %} {% block javascript %}
 <script>
+    // Init Markdown-It
     var md = markdownit().use(markdownitMathjax());
 
-    result = md.render($("#answer").text());
-    $("div.answer_output").html(result);
+    // This handles answer_output
+    result_answer = md.render($("#answer").text());
+    $("div.answer_output").html(result_answer);
 
-    //reprocess the MathOutput Element
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview3"]);
+    // This handle explanation_output
+    result_explanation = md.render($("#explanation").text());
+    $("div.explanation_output").html(result_explanation);
 </script>
 {% endblock javascript %}

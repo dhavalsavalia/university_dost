@@ -1,8 +1,13 @@
-var textarea = document.querySelector('textarea');
+// Resizes height of #answer as needed
+var answer_textarea = document.querySelector('#answer');
+answer_textarea.addEventListener('keydown', autosize);
+
+// Resizes height of #explanation as needed
+var explanation_textarea = document.querySelector('#explanation');
+explanation_textarea.addEventListener('keydown', autosize);
 
 
-textarea.addEventListener('keydown', autosize);
-
+// Actual function that handles autosize
 function autosize() {
     var el = this;
     setTimeout(function() {
@@ -12,8 +17,10 @@ function autosize() {
         el.style.height = (25 + el.scrollHeight) + "px";
         el.style.padding = "10px";
     }, 0);
-}
+};
 
+
+// This function render Markdown-It text with MathJax for answer
 (function() {
 
     var md = markdownit().use(markdownitMathjax());
@@ -21,8 +28,8 @@ function autosize() {
 
         //set the MathOutput HTML
         document.getElementById("answer").innerHTML = TeX;
-        result = md.render($("#answer").text());
-        $("div.output").html(result)
+        result_answer = md.render($("#answer").text());
+        $("div.output_answer").html(result_answer);
 
         //reprocess the MathOutput Element
         MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview3"]);
@@ -30,19 +37,8 @@ function autosize() {
     }
 })();
 
-// Not working though
-$.ready(function () {
-    var ELEMENTS = document.getElementsByClassName('markdown-explanation');
-    return Object.keys(ELEMENTS).map(function (key) {
-        var explanation_element = ELEMENTS[key], explanation_element_editor = element.querySelector('.markdown-explanation-editor'), explanation_element_preview = element.querySelector('.markdown-explanation-preview');
-        // Only add the new MarkdownX instance to fields that have no MarkdownX instance yet.
-        if (!explanation_element.hasAttribute('data-markdownx-init')){
-            return new MarkdownX(explanation_element, explanation_element_editor, explanation_element_preview);
-            console.log("success");
-        };
-    });
-});
 
+// This function render Markdown-It text with MathJax for explanation
 (function() {
 
     var mdx = markdownit().use(markdownitMathjax());
@@ -51,7 +47,7 @@ $.ready(function () {
         //set the MathOutput HTML
         document.getElementById("explanation").innerHTML = TeX;
         result_explanation = mdx.render($("#explanation").text());
-        $("div.output_explanation").html(result_explanation)
+        $("div.output_explanation").html(result_explanation);
 
         //reprocess the MathOutput Element
         MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview3"]);
