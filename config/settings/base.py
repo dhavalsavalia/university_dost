@@ -71,6 +71,9 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
 
+    # Django Avatar
+    'avatar',
+
     # DRF
     'rest_framework',
     'rest_framework.authtoken',

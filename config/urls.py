@@ -27,6 +27,7 @@ urlpatterns = [
     # Your stuff: custom urls includes go here
 
     re_path(r'^markdownx/', include('markdownx.urls')),
+    re_path(r'^avatar/', include('avatar.urls')),
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
 )
