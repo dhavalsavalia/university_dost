@@ -15,7 +15,7 @@ class QuestionForm(forms.ModelForm):
 
     class Meta:
         model = Question
-        fields = ['question_number', 'question_body', 'question_body_image_1',
+        fields = ['question_number', 'question_body',
                   'answer', 'explanation', 'marks', 'vote', 'exam', 'author']
 
 

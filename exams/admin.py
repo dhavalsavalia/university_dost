@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django import forms
 from .models import Exam, Question
+from markdownx.admin import MarkdownxModelAdmin
 
 
 class ExamAdminForm(forms.ModelForm):
@@ -27,10 +28,11 @@ class QuestionAdminForm(forms.ModelForm):
         fields = '__all__'
 
 
-class QuestionAdmin(admin.ModelAdmin):
+# inherited from MarkdownxModelAdmin to get best best of both 
+class QuestionAdmin(MarkdownxModelAdmin):
     form = QuestionAdminForm
     list_display = ['question_number', 'question_body',
-                    'question_body_image_1', 'answer', 'explanation', 'marks', 'vote']
+                    'answer', 'explanation', 'marks', 'vote']
 
 
 admin.site.register(Question, QuestionAdmin)
