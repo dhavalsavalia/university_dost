@@ -7,33 +7,37 @@
 
 {% block content %}
 <div class="container">
-
 {% if object == request.user %}
-  <div class="row">
-    <div class="col-sm-12">
+    <div class="row profile">
+      <div class="col-md-4">
+        <div class="profile-picture">
+          <img src="{% avatar_url user 250 %}" class="rounded-circle img-fluid center" id="user_avatar" alt="{{user.first_name}} {{user.last_name}}"> 
+        </div>
+        <div class="profile-name">
+          <p class="text-center">{{user.first_name}} {{user.last_name}}</p>
+        </div>
+        <div>
+          {% if perms.exams.change_question %}
+            <p class="text-center"><span class="badge badge-success">Answer Wizard</span></p>
+          {% else %}
+          <p class="text-center"><span class="badge badge-success">Student</span></p>
+          {% endif %}
+        </div>
+        <div class="profile-options center">
+            <a class="btn center" href="{% url 'users:update' %}" role="button">Update Profile</a>
+            <a class="btn center" href="{% url 'avatar_change' %}" role="button">Change your avatar</a>
+            {% if perms.exams.change_question %}
+            <a class="btn center" href="{% url 'users:questions' %}" role="button">Your Questions</a>
+            {% else %}
+            {% endif %}
+        </div>
+      </div>
 
-        <h2>{{ object.first_name }} {{object.last_name}}</h2>
+      <div class="col-md-8">
+          <!-- Some user profile related items here -->
+      </div>
     </div>
-  </div>
 
-<!-- Action buttons -->
-<div class="row">
-
-  <div class="col-sm-12">
-    <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
-    <!-- Your Stuff: Custom user template urls -->
-    
-    {% if perms.exams.change_question %}
-    <a class="btn btn-primary" href="{% url 'users:questions' %}" role="button">Your Questions</a>
-    {% else %}
-    {% endif %}
-    <br><br>
-    {% avatar user class="rounded-circle img-fluid" id="user_avatar" %}
-    <a href="{% url 'avatar_change' %}">Change your avatar</a>
-  </div>
-
-</div>
-<!-- End Action buttons -->
 {% else %}
 <p class="lead">You are not authorized to view this page.</p>
 {% endif %}
