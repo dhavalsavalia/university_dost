@@ -46,4 +46,7 @@ urlpatterns += (
     path('get_exams/', views.get_exams, name='get_exams'),
     path('write_answer/', views.write_answer, name='write_answer'),
     path('update_answer/', views.update_answer, name='update_answer'),
+    path('view_answers/', views.view_answers, name='view_answers'),
+    path('view_answers/<str:exam_id>/', views.view_question_paper, name='view_question_paper'),
+    path('view_answers/<str:exam_id>/<str:question_id>/', views.view_answer, name='view_answer'),
 )

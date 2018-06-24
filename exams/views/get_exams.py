@@ -8,12 +8,13 @@ def get_exams(request):
         subject_id = request.POST.get('si')
         if Exam.objects.filter(subject_id=subject_id).exists():
             exams = Exam.objects.filter(
-                subject_id=subject_id).values('id', 'month', 'year')
+                subject_id=subject_id).values('id', 'month', 'year', 'exam_complete')
         else:
             return JsonResponse({'no_result': True})
         exam_list = list()
         for exam in exams:
             exam_list.append(exam)
+        print(exam_list)
         return JsonResponse(exam_list, safe=False)
     else:
         return HttpResponse(status=404)
