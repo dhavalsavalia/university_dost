@@ -115,10 +115,33 @@ $('#subject_select').change(function() {
             // Actual options from API
             for (i = 0; i < data.length; i++) {
                 var option = document.createElement('option');
-                option.value = data[i].id;
-                var exam_name = data[i].month + "-" + data[i].year;
-                option.appendChild(document.createTextNode(exam_name));
-                exam_option.appendChild(option);
+                
+                // The following code is a mere and blunt hack to make things work
+                var url_path = window.location.pathname; 
+                if (url_path == "/exams/view_answers/") { // Checks if we are in a correct route
+                    if (data[i].exam_complete) { // If exam is checked complete, do show answers
+                        option.value = data[i].id;
+                        var exam_name = data[i].month + "-" + data[i].year;
+                        option.appendChild(document.createTextNode(exam_name));
+                        exam_option.appendChild(option);
+                    };
+
+                    // Don't get confused, this thing is intentionally inside if statement
+                    // This little snippet will route to actual `view_question_paper`
+                    $('#exams_select').change(function() {
+                        var get_form = document.getElementById("msform");
+                        get_form.action = './' + $('#exams_select').val() + '/';
+                    }); 
+
+                } else {
+                    if (!data[i].exam_complete) { // If exam is not checked complete, do not show answers
+                        option.value = data[i].id;
+                        var exam_name = data[i].month + "-" + data[i].year;
+                        option.appendChild(document.createTextNode(exam_name));
+                        exam_option.appendChild(option);
+                    }
+                };
+                
             }
             exams_select.appendChild(exam_option);
         })

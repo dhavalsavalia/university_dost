@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static i18n mathjax %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/exams/view_answer.css' %}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/8.4.1/markdown-it.min.js" integrity="sha256-xPwMubQT+EaVMOh04FjyG49sNwJmmGYpnhWNh4osD5w=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/markdown-it-mathjax@2.0.0/markdown-it-mathjax.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css" integrity="sha256-Ndk1ry+oGNFEaXt4kxlW/SYLbxat1O0DhaDd+lob0SY=" crossorigin="anonymous" />
+{% mathjax_scripts %}
+{% endblock css %}
+
+{% block content %}
+<p id="question_body">{{question.question_body}}</p>
+<p id="answer">{{question.answer}}</p>
+    <ul class="list-group">
+        <li class="list-group-item"><strong>Number:</strong>  <br><p id="question_number">{{question.question_number}}</p></li>
+        <li class="list-group-item"><strong>Question:</strong>  <br><div class="question_body_output"></div></li>
+        <li class="list-group-item"><strong>Type:</strong>  <br><p id="question_type">{{question.question_type}}</p></li>
+        <li class="list-group-item"><strong>Answer:</strong>  <br><div class="answer_output"></div></li>
+        {% if  question.explanation%}
+        <p id="explanation">{{question.explanation}}</p>
+        <li class="list-group-item"><strong>Explanation:</strong>  <br><div class="explanation_output"></div></li>
+        {% else %}
+        {% endif %}
+        <li class="list-group-item"><strong>Marks:</strong>  <br><p id="marks">{{question.marks}}</p></li>
+        <li class="list-group-item"><strong>Votes:</strong> <br><p id="vote">{{question.vote}}</p></li>
+        <li class="list-group-item"><strong>Author:</strong>  <br><p id="author">{{question.author.first_name}} {{question.author.last_name}}</p></li>
+    </ul>
+{% endblock content %}
+
+{% block javascript %}
+<script src="{% static 'js/exams/view_answer.js' %}"></script>
+{% endblock javascript %}

@@ -5,3 +5,4 @@ from .update_answer import *
 from .get_courses import *
 from .get_subjects import *
 from .get_exams import *
+from .view_answers import *

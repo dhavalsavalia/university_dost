@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% block css %}
+    <link href="{% static 'css/exams/submit-result.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+    <ul class="list-group">
+            <p class="lead">Your submission</p>
+            <hr>
+            <li class="list-group-item">University: {{university}}</li>
+            <li class="list-group-item">Course: {{course}}</li>
+            <li class="list-group-item">Subject: {{subject}}</li>
+            <li class="list-group-item">Exam: {{exam}}</li>
+    </ul>
+    <ul class="list-group">
+        <p class="lead">Questions yet to be answered</p>
+        <hr>
+        {% for exam_question in exam_questions %}
+                    <input type="hidden" name="qpk" value="{{exam_question.pk}}" /> 
+                    <a onclick="document.getElementById('question').submit();">
+                            <li class="list-group-item"><strong>{{exam_question.question_number}}</strong></li>
+                    </a>
+
+        <div class="mdl-cell mdl-cell--12-col mdl-typography-link-style-1" style="margin:0">
+        <a href="./{{exam_question.id}}" class="mdl-color-text--grey-800">
+        <div class="mdl-grid mdl-grid--no-spacing" style="padding:8px 0px">
+        <div class="mdl-cell mdl-cell--9-col mdl-cell--1-offset-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
+        <small>
+        <span class="mdl-typography--font-serif mdl-color-text--black">{{exam_question.question_number}}</span>
+        <span class="mdl-typography--font-serif">{{exam_question.question_body}}</span>
+        </small>
+        </div>
+        <div class="mdl-cell mdl-cell--2-col mdl-cell--1-col-phone mdl-typography--text-center">
+        <small><span class="mdl-typography--font-serif">{{exam_question.marks}} M</span></small>
+        </div>
+        </div>
+        </a>
+        </div>
+        {% endfor %}
+    </ul>
+{% endblock content %}
