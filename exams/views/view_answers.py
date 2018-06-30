@@ -54,5 +54,19 @@ def view_answer(request, exam_id, question_id):
         'subject': question.exam.subject,
         'exam': question.exam,
         'question': question,
+
+        # a litter hack to get previous question
+        'prev_question': (Question.objects
+                        .filter(exam=question.exam, question_number__lte=question.question_number, id__lt=question.id)
+                        .exclude(id=question.id)
+                        .order_by('-question_number',)
+                        .first()),
+
+        # another litter hack to get next question
+        'next_question': (Question.objects
+                        .filter(exam=question.exam, question_number__gte=question.question_number, id__gt=question.id)
+                        .exclude(id=question.id)
+                        .order_by('question_number')
+                        .first())
     }
     return render(request, 'exams/view_answer.html', context)
