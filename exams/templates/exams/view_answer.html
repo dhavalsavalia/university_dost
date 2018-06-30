@@ -11,6 +11,7 @@
 {% block content %}
 <p id="question_body">{{question.question_body}}</p>
 <p id="answer">{{question.answer}}</p>
+<br>
     <ul class="list-group">
         <li class="list-group-item"><strong>Number:</strong>  <br><p id="question_number">{{question.question_number}}</p></li>
         <li class="list-group-item"><strong>Question:</strong>  <br><div class="question_body_output"></div></li>
@@ -24,7 +25,20 @@
         <li class="list-group-item"><strong>Marks:</strong>  <br><p id="marks">{{question.marks}}</p></li>
         <li class="list-group-item"><strong>Votes:</strong> <br><p id="vote">{{question.vote}}</p></li>
         <li class="list-group-item"><strong>Author:</strong>  <br><p id="author">{{question.author.first_name}} {{question.author.last_name}}</p></li>
-    </ul>
+    </ul><br><hr>
+
+    <!-- Checks whether there is any prev_question -->
+    {% if prev_question %}
+    <p class="float-left"><a class="btn btn-primary" href="../{{prev_question.id}}">Previous Question</a></p>
+    {% else %}
+    {% endif %}
+
+    <!-- Checks whether there is any next_question -->
+    {% if next_question %}
+    <p class="float-right"><a class="btn btn-primary" href="../{{next_question.id}}">Next Question</a></p>
+    {% else %}
+    {% endif %}
+    
 {% endblock content %}
 
 {% block javascript %}
