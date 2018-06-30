@@ -48,3 +48,13 @@
 {
     font-size: 87px;
 }
+
+.only-mobile-hr {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .only-mobile-hr {
+      display: block;
+    }
+}

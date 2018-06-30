@@ -9,35 +9,73 @@
 {% endblock css %}
 
 {% block content %}
-<p id="question_body">{{question.question_body}}</p>
-<p id="answer">{{question.answer}}</p>
-<br>
-    <ul class="list-group">
-        <li class="list-group-item"><strong>Number:</strong>  <br><p id="question_number">{{question.question_number}}</p></li>
-        <li class="list-group-item"><strong>Question:</strong>  <br><div class="question_body_output"></div></li>
-        <li class="list-group-item"><strong>Type:</strong>  <br><p id="question_type">{{question.question_type}}</p></li>
-        <li class="list-group-item"><strong>Answer:</strong>  <br><div class="answer_output"></div></li>
-        {% if  question.explanation%}
-        <p id="explanation">{{question.explanation}}</p>
-        <li class="list-group-item"><strong>Explanation:</strong>  <br><div class="explanation_output"></div></li>
+
+<div class="row">
+
+    <div class="col-md-10 "><!-- This will show question, answer and other stuff -->
+        <ul class="list-group">
+
+            <li class="list-group-item">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div id="question_number">{{question.question_number}}</div><hr class="only-mobile-hr">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="question_body_output"></div><hr class="only-mobile-hr">
+                    </div>
+                    <div class="col-md-2">
+                        <div id="marks">{{question.marks}} mar{{ question.marks|pluralize:"k,ks" }}</div><br>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item"><strong>Answer:</strong>  <br>
+                <div class="answer_output"></div>
+            </li>
+            
+            {% if  question.explanation%}
+            <p id="explanation">{{question.explanation}}</p>
+            <li class="list-group-item"><strong>Explanation:</strong>  <br>
+                <div class="explanation_output"></div>
+            </li>
+            {% else %}
+            {% endif %}
+            <li class="list-group-item">
+                <div class="float-right"id="author">
+                    <strong>Author:</strong>  {{question.author.first_name}} {{question.author.last_name}}
+                </div>
+            </li>
+            <br>
+
+            <div class="vote">
+                <p>{{question.vote}} people find this answer helpful. Was this answer helpful to you?</p>
+                <button class="btn btn-success">
+                    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Yes
+                </button>
+                <button class="btn btn-danger">
+                    <i class="fa fa-thumbs-o-down" aria-hidden="true"></i> No
+                </button>
+            </div>
+        </ul>
+    </div>
+
+    <div class="col-md-2 align-self-center center"><!-- This will show next/previous buttons -->
+        <!-- Checks whether there is any prev_question -->
+        {% if prev_question %}
+        <div class="d-flex justify-content-center" style="padding: 10px"><a class="btn btn-primary" href="../{{prev_question.id}}"><i class="fa fa-lg fa-caret-left" aria-hidden="true"></i><i class="fa fa-lg fa-caret-left" aria-hidden="true"></i> Previous</a></div>
         {% else %}
         {% endif %}
-        <li class="list-group-item"><strong>Marks:</strong>  <br><p id="marks">{{question.marks}}</p></li>
-        <li class="list-group-item"><strong>Votes:</strong> <br><p id="vote">{{question.vote}}</p></li>
-        <li class="list-group-item"><strong>Author:</strong>  <br><p id="author">{{question.author.first_name}} {{question.author.last_name}}</p></li>
-    </ul><br><hr>
 
-    <!-- Checks whether there is any prev_question -->
-    {% if prev_question %}
-    <p class="float-left"><a class="btn btn-primary" href="../{{prev_question.id}}">Previous Question</a></p>
-    {% else %}
-    {% endif %}
+        <!-- Checks whether there is any next_question -->
+        {% if next_question %}
+        <div class="d-flex justify-content-center" style="padding: 10px"><a class="btn btn-primary" href="../{{next_question.id}}">Next <i class="fa fa-lg fa-caret-right" aria-hidden="true"></i><i class="fa fa-lg fa-caret-right" aria-hidden="true"></i></a></div>
+        {% else %}
+        {% endif %}
+    </div>
+</div>
 
-    <!-- Checks whether there is any next_question -->
-    {% if next_question %}
-    <p class="float-right"><a class="btn btn-primary" href="../{{next_question.id}}">Next Question</a></p>
-    {% else %}
-    {% endif %}
+<p id="question_body">{{question.question_body}}</p>
+<p id="answer">{{question.answer}}</p>
     
 {% endblock content %}
 

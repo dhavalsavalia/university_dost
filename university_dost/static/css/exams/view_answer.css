@@ -9,3 +9,7 @@
 #explanation {
     display: none;
 }
+
+#question_number, #marks {
+    font-weight: bold;
+}
