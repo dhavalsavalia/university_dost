@@ -55,6 +55,10 @@ function autosize() {
     }
 })();
 
+// Select all the img tags in .answer_output and .explanation_output
+// and addClass("img-fluid") to make them responsive
+$(".answer_output, .explanation_output").find('*','img').addClass("img-fluid");
+
 $('#submit').click(function() {
     $('#question').submit();
 });
