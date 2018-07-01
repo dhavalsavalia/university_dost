@@ -74,7 +74,7 @@
                             {% csrf_token %}  
                             <div class="form-group">
                                  <label class="sr-only" for="exampleInputEmail2">{% trans "Email address" %}</label>
-                                 <input type="email" name="login" placeholder="{% trans 'Email address' %}" autofocus="autofocus" class="form-control" required id="id_login" />
+                                 <input type="text" name="login" placeholder="{% trans 'Username or Email address' %}" autofocus="autofocus" class="form-control" required id="id_login" />
                               </div>
                               <div class="form-group">
                                  <label class="sr-only" for="exampleInputPassword2">{% trans "Password" %}</label>
@@ -84,6 +84,9 @@
                                  <label>
                                  <input type="checkbox" name="remember"id="id_remember" /> {% trans 'Remember Me' %}
                                  </label>
+                              </div>
+                              <div class="form-group">
+                                 <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
                               </div>
                               <div class="form-group">
                                  <button type="submit" class="btn btn-success btn-block">{% trans 'Sign In' %}</button>
