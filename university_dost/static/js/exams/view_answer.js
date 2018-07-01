@@ -12,3 +12,7 @@ $("div.answer_output").html(result_answer);
 // This handle explanation_output
 result_explanation = md.render($("#explanation").text());
 $("div.explanation_output").html(result_explanation);
+
+// Select all the img tags in .answer_output and .explanation_output
+// and addClass("img-fluid") to make them responsive
+$(".answer_output, .explanation_output").find('*','img').addClass("img-fluid");
