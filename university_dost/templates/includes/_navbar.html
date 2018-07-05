@@ -14,10 +14,12 @@
             </li>
             {% if request.user.is_authenticated %} {% if perms.exams.change_question %}
             <li class="nav-item">
-              {# URL provided by django-allauth/account/urls.py #}
               <a class="nav-link" href="{% url 'write_answers'  %}">{% trans "Write Answers" %}</a>
             </li>
             {% else %} {% endif %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'view_answers'  %}">{% trans "View Answers" %}</a>
+            </li>
             
             {% else %}
             {% endif %}
@@ -40,7 +42,7 @@
                                 <p class="text-left"><strong>{{user.first_name}} {{user.last_name}}</strong></p>
                                 <p class="text-left small">{{user.email}}</p>
                                 <p class="text-left">
-                                    <a href="{% url 'users:update' %}" class="btn btn-primary btn-block btn-sm">Update Profile</a>
+                                    <a href="{% url 'users:detail' request.user.username %}" class="btn btn-primary btn-block btn-sm">Update Profile</a>
                                 </p>
                             </div>
                         </div>
