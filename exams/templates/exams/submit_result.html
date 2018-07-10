@@ -18,12 +18,9 @@
         <hr>
         {% for exam_question in exam_questions %}
             {% if not exam_question.answer %}
-            <form id="question" method="post" action="{% url 'write_answer' %}">{% csrf_token %}
-                    <input type="hidden" name="qpk" value="{{exam_question.pk}}" /> 
-                    <a onclick="document.getElementById('question').submit();">
-                            <li class="list-group-item"><strong>{{exam_question.question_number}} | {{exam_question.pk}}</strong></li>
-                    </a>
-            </form>
+                <a href="{% url 'write_answer' exam_question.exam.pk exam_question.pk %}">
+                        <li class="list-group-item"><strong>{{exam_question.question_number}} | {{exam_question.pk}}</strong></li>
+                </a>
             {% else %}
             {% endif %}
         {% endfor %}

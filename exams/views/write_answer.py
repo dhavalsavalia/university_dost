@@ -6,12 +6,11 @@ from exams.forms import AnswerForm
 
 
 @login_required
-def write_answer(request):
+def write_answer(request, exam_pk, question_pk):
     """This function handles answers!!!"""
 
-    if request.method == 'POST':
-        qpk = request.POST.get('qpk')
-        question = Question.objects.get(pk=qpk)
+    if request.user.has_perm('exams.change_question'):
+        question = Question.objects.get(pk=question_pk)
         context = {
             'question': question,
             'form': AnswerForm
