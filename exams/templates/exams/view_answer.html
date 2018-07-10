@@ -48,6 +48,11 @@
             <br>
 
             <div class="vote">
+                    {% if question.author == request.user %}
+                    <a href="{% url 'write_answer' exam_question.exam.pk exam_question.pk %}" class="btn btn-success">
+                        <i class="fa fa-edit" aria-hidden="true"></i> Edit
+                    </a>
+                {% else %}
                 <p>{{question.vote}} people find this answer helpful. Was this answer helpful to you?</p>
                 <button class="btn btn-success">
                     <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Yes
@@ -55,7 +60,15 @@
                 <button class="btn btn-danger">
                     <i class="fa fa-thumbs-o-down" aria-hidden="true"></i> No
                 </button>
+                <hr>
+                <p>Do you have any changes/suggestions for this answer?</p>
+                <button class="btn btn-success">
+                    <i class="far fa-lightbulb" aria-hidden="true"></i> Yes
+                </button>
             </div>
+            {% endif %}
+
+            
         </ul>
     </div>
 
