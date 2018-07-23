@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+cookiecutter = ">=1.4.0"
+sphinx = "*"
+awscli = "*"
+httpie = "*"
+django-filter = "*"
+django-jet = "*"
+"pep8" = "*"
+"autopep8" = "*"
+"flake8" = "*"
+django-markdownx = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"
