@@ -26,11 +26,11 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
 
-    fields = ["first_name", "last_name"]
+    fields = ["first_name", "last_name", "university", "semester", "weekly_test"]
 
     # we already imported User in the view code above, remember?
     model = User
-
+    
     # send the user back to their own page after a successful update
 
     def get_success_url(self):

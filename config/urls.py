@@ -6,6 +6,9 @@ from django.views.generic import TemplateView
 from django.views import defaults as default_views
 from .views import handler404
 
+admin.site.site_header = "University Dost Administration"
+admin.site.site_title = "University Dost Administration"
+
 urlpatterns = [
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
     path(
