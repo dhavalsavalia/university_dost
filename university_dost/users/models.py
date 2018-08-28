@@ -3,6 +3,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from exams.models import Question
+from universities.models import University
 
 
 class User(AbstractUser):
@@ -13,6 +14,12 @@ class User(AbstractUser):
 
     # ManyToMany with questions
     questions = models.ManyToManyField(Question)
+
+    # Additional Fields
+    semester = models.IntegerField(blank=True, null=True)
+    year = models.IntegerField(blank=True, null=True)
+    university = models.ForeignKey(University, related_name='university', on_delete=models.CASCADE, blank=True, null=True)
+    weekly_test = models.BooleanField(default=True)
 
     def __str__(self):
         return self.username
