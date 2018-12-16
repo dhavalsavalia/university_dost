@@ -34,7 +34,7 @@ class MyUserCreationForm(UserCreationForm):
 class MyUserAdmin(AuthUserAdmin):
     form = MyUserChangeForm
     add_form = MyUserCreationForm
-    fieldsets = (("User Profile", {"fields": ("name", "university", "semester", "year", "weekly_test")}),) + AuthUserAdmin.fieldsets + (("Questions", {"fields": ("questions",)}),)
+    fieldsets = (("User Profile", {"fields": ("name", "university", "semester", "year", "weekly_test")}),) + AuthUserAdmin.fieldsets + (("Questions", {"fields": ("questions", 'upvoted_questions', 'downvoted_questions',)}),)
     list_display = ("username", "name", "is_superuser")
-    readonly_fields = ('questions',)
+    readonly_fields = ('questions', 'upvoted_questions', 'downvoted_questions',)
     search_fields = ["name"]

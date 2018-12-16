@@ -2,4 +2,5 @@
     "editor.wordWrap": "on",
     "terminal.integrated.fontFamily": "MesloLGM Nerd Font",
     "terminal.integrated.fontSize": 11,
+    "python.pythonPath": "/Users/dhavalsavalia/.local/share/virtualenvs/university_dost-7rgv-JgQ/bin/python",
 }

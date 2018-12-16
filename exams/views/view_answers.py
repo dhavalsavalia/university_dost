@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from exams.models import Exam, Question
 from universities.models import University, Course, Subject
@@ -48,13 +48,38 @@ def view_question_paper(request, exam_id):
 @login_required
 def view_answer(request, exam_id, question_id):
     question = Question.objects.get(id=question_id)
+
+    # check whether the user has cased vote or not
+    # all in one because, you know, memory, poor guy, me
+    if request.user.upvoted_questions.filter(id=question_id) or request.user.downvoted_questions.filter(id=question_id):
+        casted_vote = True
+    else:
+        casted_vote = False
+
+    # calculate percentage and stuff like that
+    # huge shoutout to Hemnag Vyas
+    upvotes = question.upvote
+    downvotes = question.downvote
+
+    if question.downvote == 0 and question.upvote == 0:
+        vote_msg = 'No one has voted, yet. Author is sad.'
+    elif question.downvote == 0:
+        vote_msg = 'Hooray! Everyone upvoted this answer'
+    else:
+        upvote_percentage = (question.upvote/(question.upvote+question.downvote))*100
+        vote_msg = '{}% people find this answer helpful. Was this answer helpful to you?'.format(upvote_percentage)
+
     context = {
         'univquestionersity': question.exam.subject.course.university,
         'course': question.exam.subject.course,
         'subject': question.exam.subject,
         'exam': question.exam,
         'question': question,
+        'casted_vote': casted_vote,
+        'vote_msg': vote_msg,
 
+        ### Issue: whatever the hell it is, it breaks when author navigates.
+        ### I hope s/he doesn't need my website. Poor guys. :(
         # a litter hack to get previous question
         'prev_question': (Question.objects
                         .filter(exam=question.exam, question_number__lte=question.question_number, id__lt=question.id)
@@ -70,3 +95,31 @@ def view_answer(request, exam_id, question_id):
                         .first())
     }
     return render(request, 'exams/view_answer.html', context)
+
+
+
+# fate of an author is casted here
+# the voting procedure
+@login_required
+def vote(request, exam_id, question_id):
+    if request.is_ajax():
+        question = Question.objects.get(id=question_id)
+
+        # do i need to explain?
+        # I am not THAT bad a programmer
+        if request.POST.get('vote_type') == 'upvote':
+            question.upvote += 1
+            question.save()
+            request.user.upvoted_questions.add(question)
+            return JsonResponse({'result': 'upvote success'})
+
+        elif request.POST.get('vote_type') == 'downvote':
+            question.downvote += 1
+            question.save()
+            request.user.downvoted_questions.add(question)
+            return JsonResponse({'result': 'downvote success'})
+            
+        else:
+            return JsonResponse({'result': 'what the fuck?'})
+    else:
+        return HttpResponse(status=404)
