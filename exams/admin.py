@@ -1,7 +1,10 @@
 from django.contrib import admin
 from django import forms
-from .models import Exam, Question
+from .models import Exam, Question, AnswerFeedback
 from markdownx.admin import MarkdownxModelAdmin
+from django.shortcuts import get_object_or_404, render
+from django.template import RequestContext
+from django.urls import path
 
 
 class ExamAdminForm(forms.ModelForm):
@@ -36,3 +39,15 @@ class QuestionAdmin(MarkdownxModelAdmin):
 
 
 admin.site.register(Question, QuestionAdmin)
+
+
+# Answer Feedback Admin
+class AnswerFeedbackAdmin(admin.ModelAdmin):
+
+    # want to add link whihc redirects to the question directly
+    list_display = ['user', 'feedback_title', 'time', 'feedback_type']
+    search_fields = ['user', 'feedback_title', 'feedback_body']
+    list_filter = ['feedback_type', 'time']
+
+
+admin.site.register(AnswerFeedback, AnswerFeedbackAdmin)
