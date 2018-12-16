@@ -50,4 +50,5 @@ urlpatterns += (
     path('view_answers/<str:exam_id>/', views.view_question_paper, name='view_question_paper'),
     path('view_answers/<str:exam_id>/<str:question_id>/', views.view_answer, name='view_answer'),
     path('view_answers/<str:exam_id>/<str:question_id>/vote/', views.vote, name='vote'),
+    path('view_answers/<str:exam_id>/<str:question_id>/feedback/', views.answer_feedback, name='answer_feedback'),
 )

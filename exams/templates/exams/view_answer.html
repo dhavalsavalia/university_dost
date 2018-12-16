@@ -96,7 +96,12 @@
 
                 <hr>
                 <p>Do you have any changes/suggestions for this answer?</p>
-                <button class="btn btn-success">
+
+                <!-- this button will toggle a modal 
+                see code for modal.
+                it will be roaming around here.
+                just find it.-->
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#answerFeedback">
                     <i class="far fa-lightbulb" aria-hidden="true"></i> Yes
                 </button>
             </div>
@@ -126,6 +131,46 @@
 
 <p id="question_body">{{question.question_body}}</p>
 <p id="answer">{{question.answer}}</p>
+
+<!-- Answer Feedback Form Modal -->
+<div class="modal fade" id="answerFeedback" tabindex="-1" role="dialog" aria-labelledby="answerFeedbackLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="answerFeedbackLabel">Answer Feedback Form</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <form id="answer_feedback" action="./feedback/" method="post">
+            {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="feedback_title">Title</label>
+                        <input type="test" class="form-control" id="feedback_title" name="feedback_title" placeholder="Title...">
+                    </div>
+                    <div class="form-group">
+                        <label for="feedback_type">Feedback Type</label>
+                        <select class="form-control" id="feedback_type" name="feedback_type">
+                            <option value="" selected disabled hidden>Choose here</option>
+                            <option value="wrong_answer">Wrong Answer</option>
+                            <option value="improvement">Improvement</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="feedback_body">Body</label>
+                        <textarea class="form-control" id="feedback_body" name="feedback_body" rows="3" placeholder="What happened exactly?"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
     
 {% endblock content %}
 

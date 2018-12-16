@@ -113,3 +113,41 @@ class Question(models.Model):
 
     def get_update_url(self):
         return reverse('exams_question_update', args=(self.pk,))
+
+
+class AnswerFeedback(models.Model):
+
+    # Choices
+    FEEDBACK_TYPE_CHOICES = (
+        ('wrong_answer', 'Wrong Answer'),
+        ('improvement', 'Improvement'),
+    )
+
+    # Fields
+    feedback_title = models.CharField(max_length=256, blank=True, null=True)
+    feedback_body = models.TextField()
+    feedback_type = models.CharField(
+        max_length=128, choices=FEEDBACK_TYPE_CHOICES)
+    user_email = models.EmailField(max_length=256, blank=True, null=True)
+    time = models.DateTimeField(auto_now_add=True)
+
+    # Relationship Fields
+    question = models.ForeignKey(
+        Question, on_delete=models.CASCADE
+    )
+    user = models.ForeignKey(
+        AUTH_USER_MODEL, blank=True, null=True, on_delete=models.SET_NULL
+    )
+
+    class Meta:
+        ordering = ('-pk',)
+
+    def __str__(self):
+        return self.feedback_title
+
+    def get_absolute_url(self):
+        return reverse('exams_answer_feedback_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('exams_answer_feedback_update', args=(self.pk,))
+
