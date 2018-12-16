@@ -85,7 +85,8 @@ class Question(models.Model):
     answer = MarkdownxField(blank=True, null=True)
     explanation = MarkdownxField(blank=True, null=True)
     marks = models.IntegerField()
-    vote = models.IntegerField(default=0)
+    upvote = models.IntegerField(default=0)
+    downvote = models.IntegerField(default=0)
 
     # Relationship Fields
     exam = models.ForeignKey(

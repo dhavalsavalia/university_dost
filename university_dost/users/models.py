@@ -13,7 +13,12 @@ class User(AbstractUser):
     name = models.CharField(_("Name of User"), blank=True, max_length=255)
 
     # ManyToMany with questions
-    questions = models.ManyToManyField(Question)
+    questions = models.ManyToManyField(Question, related_name='questions')
+
+    # voted_questions is actually voted answers
+    # fuck this is confusing
+    upvoted_questions = models.ManyToManyField(Question, related_name='upvoted_questions')
+    downvoted_questions = models.ManyToManyField(Question, related_name='downvoted_questions')
 
     # Additional Fields
     semester = models.IntegerField(blank=True, null=True)

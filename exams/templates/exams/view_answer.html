@@ -47,19 +47,53 @@
             </li>
             <br>
 
+            <hr>
+
+            <!-- main votig process starts from here-->
             <div class="vote">
-                    {% if question.author == request.user %}
+                <!-- check if the user is in fact the author of this answer.
+                If s/he is, come on, don't let them vote their answer.
+                Instead, ask them to edit the answer.
+                -->
+                {% if question.author == request.user %}
                     <a href="{% url 'write_answer' exam_question.exam.pk exam_question.pk %}" class="btn btn-success">
                         <i class="fa fa-edit" aria-hidden="true"></i> Edit
                     </a>
                 {% else %}
-                <p>{{question.vote}} people find this answer helpful. Was this answer helpful to you?</p>
-                <button class="btn btn-success">
-                    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Yes
-                </button>
-                <button class="btn btn-danger">
-                    <i class="fa fa-thumbs-o-down" aria-hidden="true"></i> No
-                </button>
+
+                <!-- Below 40% and the answer will be reviewed -->
+                <p>{{vote_msg}}</p>
+
+                {% if casted_vote %}
+                    <!-- this dude has already voted. kudos to him/her-->
+                    <!-- oh man, I am taking this equality game too far. -->
+                    <div class="alert alert-success" role="alert">
+                        Seems like you have already voted!
+                    </div>
+                {% else %}
+                    <div class="vote_area">
+                        <!-- Vote Button: Yes -->
+                        <form action="./vote/" id="upvote" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="vote_type" value="upvote" />
+                            <button class="btn btn-success" type="submit"> 
+                                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Yes
+                            </button>
+                        </form>
+
+                        <!-- Vote Button: No -->
+                        <form action="./vote/" id="downvote" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="vote_type" value="downvote" />
+                            <button class="btn btn-danger" type="submit"> 
+                                <i class="fa fa-thumbs-o-down" aria-hidden="true"></i> No
+                            </button>
+                        </form>
+                    </div>
+                {% endif %}
+
+                
+
                 <hr>
                 <p>Do you have any changes/suggestions for this answer?</p>
                 <button class="btn btn-success">
@@ -72,6 +106,9 @@
         </ul>
     </div>
 
+    <!-- the buttons below breaks when author visits their answer.
+    must be fixed.
+    -->
     <div class="col-md-2 align-self-center center"><!-- This will show next/previous buttons -->
         <!-- Checks whether there is any prev_question -->
         {% if prev_question %}

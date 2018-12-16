@@ -32,7 +32,7 @@ class QuestionAdminForm(forms.ModelForm):
 class QuestionAdmin(MarkdownxModelAdmin):
     form = QuestionAdminForm
     list_display = ['question_number', 'question_body',
-                    'answer', 'explanation', 'marks', 'vote']
+                    'answer', 'explanation', 'marks', 'upvote', 'downvote']
 
 
 admin.site.register(Question, QuestionAdmin)
