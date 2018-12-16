@@ -58,3 +58,18 @@
       display: block;
     }
 }
+
+
+
+/* Login and Sign buttons */
+
+.btn-google {
+  background: #DD4B39; 
+  color: #FFF;
+}
+
+.btn-google:hover,
+.btn-google:focus {
+  background: #E74B37;
+  color: #FFF;
+}

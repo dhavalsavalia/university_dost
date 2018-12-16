@@ -271,3 +271,4 @@ university_dost/media/
 .env
 .envs/*
 !.envs/.local/
+.vscode/settings.json
