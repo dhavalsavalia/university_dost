@@ -130,14 +130,25 @@ class AnswerFeedback(models.Model):
         ('wrong_answer', 'Wrong Answer'),
         ('improvement', 'Improvement'),
     )
+    FEEDBACK_STATUS_CHOICES = (
+        ('received', 'Received'),
+        ('reviewing', 'Reviewing'),
+        ('reviewed', 'Reviewed'),
+        ('resolved', 'Resolved')
+    )
 
     # Fields
     feedback_title = models.CharField(max_length=256, blank=True, null=True)
     feedback_body = models.TextField()
     feedback_type = models.CharField(
         max_length=128, choices=FEEDBACK_TYPE_CHOICES)
+    feedback_status = models.CharField(
+        max_length=128,
+        choices=FEEDBACK_STATUS_CHOICES,
+        default='received')
     user_email = models.EmailField(max_length=256, blank=True, null=True)
-    time = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     # Relationship Fields
     question = models.ForeignKey(
@@ -155,7 +166,6 @@ class AnswerFeedback(models.Model):
 
     def get_absolute_url(self):
         return reverse('exams_answerfeedback_detail', args=(self.pk,))
-
 
     def get_update_url(self):
         return reverse('exams_answerfeedback_update', args=(self.pk,))

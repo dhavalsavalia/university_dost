@@ -43,13 +43,13 @@ class AnswerFeedbackAdmin(admin.ModelAdmin):
 
     # want to add link whihc redirects to the question directly
     list_display = [
-        'feedback_title', 'time', 'feedback_type'
+        'feedback_title', 'created', 'updated', 'feedback_type'
     ]
     search_fields = [
         'feedback_title', 'feedback_body'
     ]
     list_filter = [
-        'feedback_type', 'time'
+        'feedback_type', 'created', 'updated', 'feedback_status'
     ]
     fieldsets = [
         [
@@ -63,13 +63,14 @@ class AnswerFeedbackAdmin(admin.ModelAdmin):
             "Meta",
             {
                 'fields': [
-                    'feedback_type', 'time', 'question'
+                    'feedback_type', 'feedback_status', 'created',
+                    'updated', 'question'
                 ]
             }]
     ]
     readonly_fields = [
-        'feedback_title', 'time', 'feedback_type',
-        'feedback_body', 'question'
+        'feedback_title', 'created', 'updated', 'feedback_type',
+        'feedback_status', 'feedback_body', 'question'
     ]
 
 

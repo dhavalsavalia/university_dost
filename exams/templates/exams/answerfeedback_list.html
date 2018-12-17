@@ -10,7 +10,8 @@
             <th scope="col">Title</th>
             <th scope="col">Body</th>
             <th scope="col">Type</th>
-            <th scope="col">Time</th>
+            <th scope="col">Created</th>
+            <th scope="col">Last Updated</th>
         </tr>
     </thead>
     <tbody>
@@ -20,7 +21,8 @@
             <td><a href="{{feedback.get_absolute_url}}">{{feedback}}</a></td>
             <td>{{ feedback.feedback_body }}</td>
             <td>{{ feedback.feedback_type }}</td>
-            <td>{{ feedback.time }}</td>
+            <td>{{ feedback.created }}</td>
+            <td>{{ feedback.updated }}</td>
         </tr>
         {% endfor %}
     </tbody>

@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from exams.models import Question, AnswerFeedback
-from exams.forms import AnswerFeedbackForm
 from django.contrib import messages
 
 
@@ -61,25 +60,22 @@ def answer_feedback_update(request, pk):
     """
 
     if request.user.has_perm('exams.change_answerfeedback'):
+        feedback = AnswerFeedback.objects.get(pk=pk)
         if request.method == 'POST':
-            new_title = request.POST.get('feedback_title')
-            feedback = AnswerFeedback.objects.get(pk=pk)
-            feedback.feedback_title = new_title
+            new_feedback_status = request.POST.get('feedback_status')
+            feedback.feedback_status = new_feedback_status
             feedback.save()
             messages.success(
                 request,
                 'Feedback status has been updated successfully!'
                 )
             context = {
-                'feedback_title': feedback.feedback_title
+                'feedback': feedback
             }
             return render(request, 'exams/answerfeedback_form.html', context)
         else:
-            form = AnswerFeedbackForm()
-            feedback = AnswerFeedback.objects.get(pk=pk)
             context = {
-                'form': form,
-                'feedback_title': feedback.feedback_title
+                'feedback': feedback
             }
             return render(request, 'exams/answerfeedback_form.html', context)
     else:

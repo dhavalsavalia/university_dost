@@ -1,6 +1,6 @@
 from django.views.generic import DetailView, ListView, UpdateView, CreateView
 from exams.models import Exam, Question, AnswerFeedback
-from exams.forms import ExamForm, QuestionForm, AnswerFeedbackForm
+from exams.forms import ExamForm, QuestionForm
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
