@@ -42,9 +42,35 @@ admin.site.register(Question, QuestionAdmin)
 class AnswerFeedbackAdmin(admin.ModelAdmin):
 
     # want to add link whihc redirects to the question directly
-    list_display = ['user', 'feedback_title', 'time', 'feedback_type']
-    search_fields = ['user', 'feedback_title', 'feedback_body']
-    list_filter = ['feedback_type', 'time']
+    list_display = [
+        'feedback_title', 'time', 'feedback_type'
+    ]
+    search_fields = [
+        'feedback_title', 'feedback_body'
+    ]
+    list_filter = [
+        'feedback_type', 'time'
+    ]
+    fieldsets = [
+        [
+            "Feedback",
+            {
+                "fields": [
+                    'feedback_title', 'feedback_body'
+                ]
+            }],
+        [
+            "Meta",
+            {
+                'fields': [
+                    'feedback_type', 'time', 'question'
+                ]
+            }]
+    ]
+    readonly_fields = [
+        'feedback_title', 'time', 'feedback_type',
+        'feedback_body', 'question'
+    ]
 
 
 admin.site.register(AnswerFeedback, AnswerFeedbackAdmin)

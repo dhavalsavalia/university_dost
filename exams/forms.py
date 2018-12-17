@@ -25,6 +25,8 @@ class AnswerForm(forms.Form):
     answerfield = MarkdownxFormField()
 
 
+# Form fields are left blank intentionally
+# I will add 'feedback status' field in next updates
 class AnswerFeedbackForm(forms.ModelForm):
 
     class Meta:

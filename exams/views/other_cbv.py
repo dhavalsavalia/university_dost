@@ -1,6 +1,7 @@
 from django.views.generic import DetailView, ListView, UpdateView, CreateView
 from exams.models import Exam, Question, AnswerFeedback
 from exams.forms import ExamForm, QuestionForm, AnswerFeedbackForm
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
 class ExamListView(ListView):
@@ -41,16 +42,3 @@ class QuestionDetailView(DetailView):
 class QuestionUpdateView(UpdateView):
     model = Question
     form_class = QuestionForm
-
-
-class AnswerFeedbackListView(ListView):
-    model = AnswerFeedback
-
-
-class AnswerFeedbackDetailView(DetailView):
-    model = AnswerFeedback
-
-
-class AnswerFeedbackUpdateView(UpdateView):
-    model = AnswerFeedback
-    form_class = AnswerFeedbackForm

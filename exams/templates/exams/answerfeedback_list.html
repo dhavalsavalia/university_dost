@@ -14,13 +14,13 @@
         </tr>
     </thead>
     <tbody>
-        {% for object in object_list %}
+        {% for feedback in feedbacks %}
         <tr>
-            <th scope="row">{{object.pk}}</th>
-            <td><a href="{{object.get_absolute_url}}">{{object}}</a></td>
-            <td>{{ object.feedback_body }}</td>
-            <td>{{ object.feedback_type }}</td>
-            <td>{{ object.time }}</td>
+            <th scope="row">{{feedback.pk}}</th>
+            <td><a href="{{feedback.get_absolute_url}}">{{feedback}}</a></td>
+            <td>{{ feedback.feedback_body }}</td>
+            <td>{{ feedback.feedback_type }}</td>
+            <td>{{ feedback.time }}</td>
         </tr>
         {% endfor %}
     </tbody>

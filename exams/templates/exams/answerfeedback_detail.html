@@ -3,11 +3,13 @@
 {% block content %}
 <p><a class="btn btn-default" href="{% url 'exams_answerfeedback_list' %}"><i class="fa fa-home" aria-hidden="true"></i>
  &nbsp;&nbsp;Answer Feedbacks</a></p>
-Title: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ object.feedback_title }} <hr>
-Body: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ object.feedback_body }} <hr>
-Type: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ object.feedback_type }} <hr>
-Time: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ object.time }} <hr>
+Title: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ feedback.feedback_title }} <hr>
+Body: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ feedback.feedback_body }} <hr>
+Type: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ feedback.feedback_type }} <hr>
+Time: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ feedback.time }} <hr>
+Question: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="/exams/view_answers/{{ feedback.question.exam.id }}/{{ feedback.question.id }}/">{{feedback.question.exam.subject.course.university}} > {{feedback.question.exam.subject.course.name}} > {{feedback.question.exam}} > {{feedback.question.question_number}}</a> <hr>
 
-<a class="btn btn-primary" href="{{object.get_update_url}}">Update Status</a>
+<a class="btn btn-primary" href="{{feedback.get_update_url}}">Update Status</a>
 
 {% endblock %}

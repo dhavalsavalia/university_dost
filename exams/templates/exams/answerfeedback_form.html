@@ -4,7 +4,7 @@
 {% block content %}
 <p><a class="btn btn-default" href="{% url 'exams_answerfeedback_list' %}"><i class="fa fa-home" aria-hidden="true"></i>
  &nbsp;&nbsp;Answer Feedbacks</a></p>
-Title: &nbsp;&nbsp;{{ object.feedback_title }} <br><br><hr>
+Title: &nbsp;&nbsp;{{ feedback_title }} <br><hr>
 <form method="post">
 {% csrf_token %}
 {{form|crispy}}
