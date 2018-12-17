@@ -17,13 +17,24 @@ class User(AbstractUser):
 
     # voted_questions is actually voted answers
     # fuck this is confusing
-    upvoted_questions = models.ManyToManyField(Question, related_name='upvoted_questions')
-    downvoted_questions = models.ManyToManyField(Question, related_name='downvoted_questions')
+    upvoted_questions = models.ManyToManyField(
+                                        Question,
+                                        related_name='upvoted_questions'
+                                        )
+    downvoted_questions = models.ManyToManyField(
+                                        Question,
+                                        related_name='downvoted_questions'
+                                        )
 
     # Additional Fields
     semester = models.IntegerField(blank=True, null=True)
     year = models.IntegerField(blank=True, null=True)
-    university = models.ForeignKey(University, related_name='university', on_delete=models.CASCADE, blank=True, null=True)
+    university = models.ForeignKey(University,
+                                   related_name='university',
+                                   on_delete=models.CASCADE,
+                                   blank=True,
+                                   null=True
+                                   )
     weekly_test = models.BooleanField(default=True)
 
     def __str__(self):

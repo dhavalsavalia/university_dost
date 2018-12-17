@@ -21,20 +21,24 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
     permanent = False
 
     def get_redirect_url(self):
-        return reverse("users:detail", kwargs={"username": self.request.user.username})
+        return reverse("users:detail",
+                       kwargs={"username": self.request.user.username})
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
 
-    fields = ["first_name", "last_name", "university", "semester", "weekly_test"]
+    fields = ["first_name", "last_name", "university",
+              "semester", "weekly_test"
+              ]
 
     # we already imported User in the view code above, remember?
     model = User
-    
+
     # send the user back to their own page after a successful update
 
     def get_success_url(self):
-        return reverse("users:detail", kwargs={"username": self.request.user.username})
+        return reverse("users:detail",
+                       kwargs={"username": self.request.user.username})
 
     def get_object(self):
         # Only get the User record for the user making the request
@@ -56,11 +60,15 @@ def question_list(request):
         # Check whether user is in "answers_wizard" group
         if request.method == 'POST':
             context = {
-                'university': University.objects.get(id=request.POST['university']),
+                'university': University.objects.get(
+                                                id=request.POST['university']
+                                                ),
                 'course': Course.objects.get(id=request.POST['course']),
                 'subject': Subject.objects.get(id=request.POST['subject']),
                 'exam': Exam.objects.get(id=request.POST['exam']),
-                'exam_questions': request.user.questions.filter(exam__id=request.POST['exam'])
+                'exam_questions': request.user.questions.filter(
+                                                exam__id=request.POST['exam']
+                                                )
                 .order_by('question_code'),
             }
             return render(request, 'users/question_list.html', context)
@@ -77,7 +85,7 @@ def question_list(request):
 
 
 @login_required
-def update_answer(request,qpk):
+def update_answer(request, qpk):
     """This function handles answers!!!"""
 
     if request.user.has_perm('exams.change_question'):

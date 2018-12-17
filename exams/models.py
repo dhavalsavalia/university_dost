@@ -2,8 +2,7 @@ from django.urls import reverse
 from config.settings.base import AUTH_USER_MODEL
 from django.db import models
 from universities.models import Subject
-from config.utils import (upload_question_body_path,
-                          random_string_generator,)
+from config.utils import random_string_generator
 from markdownx.models import MarkdownxField
 
 
@@ -50,7 +49,10 @@ class Exam(models.Model):
     def save(self, *args, **kwargs):
         if self.exam_code and len(self.exam_code.split('-')) > 3:
             self.exam_code = self.exam_code.split('-')[3]
-        self.exam_code = '{}-{}'.format(self.subject.subject_code, random_string_generator(size=5))
+        self.exam_code = '{}-{}'.format(
+            self.subject.subject_code,
+            random_string_generator(size=5)
+            )
         qs_exists = Exam.objects.filter(exam_code=self.exam_code).exists()
         if qs_exists:
             self.exam_code = '{}-{}'.format(self.subject.subject_code,
@@ -102,11 +104,17 @@ class Question(models.Model):
     def save(self, *args, **kwargs):
         if len(self.question_code.split('-')) > 4:
             self.question_code = self.question_code.split('-')[4]
-        self.question_code = '{}-{}'.format(self.exam.exam_code, self.question_code)
+        self.question_code = '{}-{}'.format(
+            self.exam.exam_code,
+            self.question_code
+            )
         super(Question, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.question_number + " | " + self.exam.term + "-" + self.exam.year
+        return (self.question_number +
+                " | " + self.exam.term +
+                "-" + self.exam.year
+                )
 
     def get_absolute_url(self):
         return reverse('exams_question_detail', args=(self.pk,))
@@ -150,4 +158,3 @@ class AnswerFeedback(models.Model):
 
     def get_update_url(self):
         return reverse('exams_answer_feedback_update', args=(self.pk,))
-
