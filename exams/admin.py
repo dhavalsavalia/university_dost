@@ -2,9 +2,6 @@ from django.contrib import admin
 from django import forms
 from .models import Exam, Question, AnswerFeedback
 from markdownx.admin import MarkdownxModelAdmin
-from django.shortcuts import get_object_or_404, render
-from django.template import RequestContext
-from django.urls import path
 
 
 class ExamAdminForm(forms.ModelForm):
@@ -31,7 +28,7 @@ class QuestionAdminForm(forms.ModelForm):
         fields = '__all__'
 
 
-# inherited from MarkdownxModelAdmin to get best best of both 
+# inherited from MarkdownxModelAdmin to get best best of both
 class QuestionAdmin(MarkdownxModelAdmin):
     form = QuestionAdminForm
     list_display = ['question_number', 'question_body',
