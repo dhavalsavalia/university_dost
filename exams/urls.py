@@ -84,3 +84,10 @@ urlpatterns += (
           name='answer_feedback'
           ),
 )
+
+urlpatterns += (
+    # urls for AnswerFeedback
+    path('exams/answerfeedback/', views.AnswerFeedbackListView.as_view(), name='exams_answerfeedback_list'),
+    path('exams/answerfeedback/detail/<int:pk>/', views.AnswerFeedbackDetailView.as_view(), name='exams_answerfeedback_detail'),
+    path('exams/answerfeedback/update/<int:pk>/', views.AnswerFeedbackUpdateView.as_view(), name='exams_answerfeedback_update'),
+)

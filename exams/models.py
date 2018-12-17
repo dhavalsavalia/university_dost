@@ -154,7 +154,8 @@ class AnswerFeedback(models.Model):
         return self.feedback_title
 
     def get_absolute_url(self):
-        return reverse('exams_answer_feedback_detail', args=(self.pk,))
+        return reverse('exams_answerfeedback_detail', args=(self.pk,))
+
 
     def get_update_url(self):
-        return reverse('exams_answer_feedback_update', args=(self.pk,))
+        return reverse('exams_answerfeedback_update', args=(self.pk,))

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<p><a class="btn btn-default" href="{% url 'exams_answerfeedback_list' %}"><i class="fa fa-home" aria-hidden="true"></i>
+ &nbsp;&nbsp;Answer Feedbacks</a></p>
+Title: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ object.feedback_title }} <hr>
+Body: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ object.feedback_body }} <hr>
+Type: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ object.feedback_type }} <hr>
+Time: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ object.time }} <hr>
+
+<a class="btn btn-primary" href="{{object.get_update_url}}">Update Status</a>
+
+{% endblock %}
