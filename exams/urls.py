@@ -84,3 +84,19 @@ urlpatterns += (
           name='answer_feedback'
           ),
 )
+
+urlpatterns += (
+    # urls for AnswerFeedback
+    path('answerfeedback/',
+         views.answer_feedback_list,
+         name='exams_answerfeedback_list'
+         ),
+    path('answerfeedback/detail/<int:pk>/',
+         views.answer_feedback_detail,
+         name='exams_answerfeedback_detail'
+         ),
+    path('answerfeedback/update/<int:pk>/',
+         views.answer_feedback_update,
+         name='exams_answerfeedback_update'
+         ),
+)

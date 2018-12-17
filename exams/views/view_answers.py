@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
-from exams.models import Exam, Question, AnswerFeedback
+from exams.models import Exam, Question
 from universities.models import University, Course, Subject
 
 
@@ -137,24 +137,5 @@ def vote(request, exam_id, question_id):
 
         else:
             return JsonResponse({'result': 'what the fuck?'})
-    else:
-        return HttpResponse(status=404)
-
-
-# we need feedback, like everyone does
-# and we listen to them or do we? (Vsauce)
-@login_required
-def answer_feedback(request, exam_id, question_id):
-    if request.is_ajax():
-        feedback = AnswerFeedback(
-            user=request.user,
-            question=Question.objects.get(id=question_id),
-            user_email=request.user.email,
-            feedback_type=request.POST.get('feedback_type'),
-            feedback_title=request.POST.get('feedback_title'),
-            feedback_body=request.POST.get('feedback_body'),
-        )
-        feedback.save()
-        return HttpResponse(status=200)
     else:
         return HttpResponse(status=404)

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<p><a class="btn btn-default" href="{% url 'exams_answerfeedback_list' %}"><i class="fa fa-home" aria-hidden="true"></i>
+ &nbsp;&nbsp;Answer Feedbacks</a></p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Title</th>
+            <th scope="col">Body</th>
+            <th scope="col">Type</th>
+            <th scope="col">Created</th>
+            <th scope="col">Last Updated</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for feedback in feedbacks %}
+        <tr>
+            <th scope="row">{{feedback.pk}}</th>
+            <td><a href="{{feedback.get_absolute_url}}">{{feedback}}</a></td>
+            <td>{{ feedback.feedback_body }}</td>
+            <td>{{ feedback.feedback_type }}</td>
+            <td>{{ feedback.created }}</td>
+            <td>{{ feedback.updated }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
