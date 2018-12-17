@@ -39,5 +39,15 @@ $('#downvote').submit(function(e){
     e.preventDefault();
 });
 
+// This handles answer feedbacks
+$('#answer_feedback').submit(function(e){
+    $.post('./feedback/', $(this).serialize(), function(data){
+        $('.modal-body').html(`<div class='alert alert-success' role='alert'>
+                                  Thank you for your feedback! We will take appropriate soon.
+                              </div>`);
+        $('.modal-footer').html('<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>');
+    });
+    e.preventDefault();
+});
 
 

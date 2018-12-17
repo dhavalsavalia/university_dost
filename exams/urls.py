@@ -38,16 +38,65 @@ urlpatterns += (
 )
 
 urlpatterns += (
-    # urls for Write Answer
-    path('write_answers/', views.write_answers,
-         name='write_answers'),
-    path('get_courses/', views.get_courses, name='get_courses'),
-    path('get_subjects/', views.get_subjects, name='get_subjects'),
-    path('get_exams/', views.get_exams, name='get_exams'),
-    path('write_answer/<str:exam_pk>/<str:question_pk>/', views.write_answer, name='write_answer'),
-    path('update_answer/', views.update_answer, name='update_answer'),
-    path('view_answers/', views.view_answers, name='view_answers'),
-    path('view_answers/<str:exam_id>/', views.view_question_paper, name='view_question_paper'),
-    path('view_answers/<str:exam_id>/<str:question_id>/', views.view_answer, name='view_answer'),
-    path('view_answers/<str:exam_id>/<str:question_id>/vote/', views.vote, name='vote'),
+     # urls for Write Answer
+     path('write_answers/',
+          views.write_answers,
+          name='write_answers'
+          ),
+     path('get_courses/',
+          views.get_courses,
+          name='get_courses'
+          ),
+     path('get_subjects/',
+          views.get_subjects,
+          name='get_subjects'
+          ),
+     path('get_exams/',
+          views.get_exams,
+          name='get_exams'
+          ),
+     path('write_answer/<str:exam_pk>/<str:question_pk>/',
+          views.write_answer,
+          name='write_answer'
+          ),
+     path('update_answer/',
+          views.update_answer,
+          name='update_answer'
+          ),
+     path('view_answers/',
+          views.view_answers,
+          name='view_answers'
+          ),
+     path('view_answers/<str:exam_id>/',
+          views.view_question_paper,
+          name='view_question_paper'
+          ),
+     path('view_answers/<str:exam_id>/<str:question_id>/',
+          views.view_answer,
+          name='view_answer'
+          ),
+     path('view_answers/<str:exam_id>/<str:question_id>/vote/',
+          views.vote,
+          name='vote'
+          ),
+     path('view_answers/<str:exam_id>/<str:question_id>/feedback/',
+          views.answer_feedback,
+          name='answer_feedback'
+          ),
+)
+
+urlpatterns += (
+    # urls for AnswerFeedback
+    path('answerfeedback/',
+         views.answer_feedback_list,
+         name='exams_answerfeedback_list'
+         ),
+    path('answerfeedback/detail/<int:pk>/',
+         views.answer_feedback_detail,
+         name='exams_answerfeedback_detail'
+         ),
+    path('answerfeedback/update/<int:pk>/',
+         views.answer_feedback_update,
+         name='exams_answerfeedback_update'
+         ),
 )

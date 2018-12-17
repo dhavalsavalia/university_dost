@@ -13,11 +13,21 @@ def write_answers(request):
         # Check whether user is in "answers_wizard" group
         if request.method == 'POST':
             context = {
-                'university': University.objects.get(id=request.POST['university']),
-                'course': Course.objects.get(id=request.POST['course']),
-                'subject': Subject.objects.get(id=request.POST['subject']),
-                'exam': Exam.objects.get(id=request.POST['exam']),
-                'exam_questions': Question.objects.filter(exam=request.POST['exam'])
+                'university': University.objects.get(
+                    id=request.POST['university']
+                    ),
+                'course': Course.objects.get(
+                    id=request.POST['course']
+                    ),
+                'subject': Subject.objects.get(
+                    id=request.POST['subject']
+                    ),
+                'exam': Exam.objects.get(
+                    id=request.POST['exam']
+                    ),
+                'exam_questions': Question.objects.filter(
+                    exam=request.POST['exam']
+                    )
                 .order_by('question_code'),
             }
             return render(request, 'exams/submit_result.html', context)

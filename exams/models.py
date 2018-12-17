@@ -2,8 +2,7 @@ from django.urls import reverse
 from config.settings.base import AUTH_USER_MODEL
 from django.db import models
 from universities.models import Subject
-from config.utils import (upload_question_body_path,
-                          random_string_generator,)
+from config.utils import random_string_generator
 from markdownx.models import MarkdownxField
 
 
@@ -50,7 +49,10 @@ class Exam(models.Model):
     def save(self, *args, **kwargs):
         if self.exam_code and len(self.exam_code.split('-')) > 3:
             self.exam_code = self.exam_code.split('-')[3]
-        self.exam_code = '{}-{}'.format(self.subject.subject_code, random_string_generator(size=5))
+        self.exam_code = '{}-{}'.format(
+            self.subject.subject_code,
+            random_string_generator(size=5)
+            )
         qs_exists = Exam.objects.filter(exam_code=self.exam_code).exists()
         if qs_exists:
             self.exam_code = '{}-{}'.format(self.subject.subject_code,
@@ -102,14 +104,68 @@ class Question(models.Model):
     def save(self, *args, **kwargs):
         if len(self.question_code.split('-')) > 4:
             self.question_code = self.question_code.split('-')[4]
-        self.question_code = '{}-{}'.format(self.exam.exam_code, self.question_code)
+        self.question_code = '{}-{}'.format(
+            self.exam.exam_code,
+            self.question_code
+            )
         super(Question, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.question_number + " | " + self.exam.term + "-" + self.exam.year
+        return (self.question_number +
+                " | " + self.exam.term +
+                "-" + self.exam.year
+                )
 
     def get_absolute_url(self):
         return reverse('exams_question_detail', args=(self.pk,))
 
     def get_update_url(self):
         return reverse('exams_question_update', args=(self.pk,))
+
+
+class AnswerFeedback(models.Model):
+
+    # Choices
+    FEEDBACK_TYPE_CHOICES = (
+        ('wrong_answer', 'Wrong Answer'),
+        ('improvement', 'Improvement'),
+    )
+    FEEDBACK_STATUS_CHOICES = (
+        ('received', 'Received'),
+        ('reviewing', 'Reviewing'),
+        ('reviewed', 'Reviewed'),
+        ('resolved', 'Resolved')
+    )
+
+    # Fields
+    feedback_title = models.CharField(max_length=256, blank=True, null=True)
+    feedback_body = models.TextField()
+    feedback_type = models.CharField(
+        max_length=128, choices=FEEDBACK_TYPE_CHOICES)
+    feedback_status = models.CharField(
+        max_length=128,
+        choices=FEEDBACK_STATUS_CHOICES,
+        default='received')
+    user_email = models.EmailField(max_length=256, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    # Relationship Fields
+    question = models.ForeignKey(
+        Question, on_delete=models.CASCADE
+    )
+    user = models.ForeignKey(
+        AUTH_USER_MODEL, blank=True, null=True, on_delete=models.SET_NULL
+    )
+
+    class Meta:
+        ordering = ('-pk',)
+
+    def __str__(self):
+        return self.feedback_title
+
+    def get_absolute_url(self):
+        return reverse('exams_answerfeedback_detail', args=(self.pk,))
+
+    def get_update_url(self):
+        return reverse('exams_answerfeedback_update', args=(self.pk,))
