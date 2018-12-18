@@ -13,3 +13,7 @@
 #question_number, #marks {
     font-weight: bold;
 }
+
+.extra-space {
+    height: 40px;
+}

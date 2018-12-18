@@ -10,20 +10,42 @@
 
 {% block content %}
 
+<h2 class="text-center">{{question.exam.subject.course.university}}</h2>
+<h3 class="text-center">{{question.exam.subject.course.get_degree_type_display}} - {{question.exam.subject.course.name}} - {{question.exam.get_term_display}} {{question.exam.year}}</h3>
+<p class="lead text-center">{{question.exam.subject}}</p>
+<hr>
+
 <div class="row">
+
+    <div class="col-md-2">
+        <div class="d-flex justify-content-center"><a class="btn btn-primary btn-block" href="{% url 'view_question_paper' question.exam.id %}">Go to Question Paper</a></div>
+
+        <!-- This will show next/previous buttons -->
+        <!-- Checks whether there is any prev_question -->
+        {% if prev_question %}
+        <div class="d-flex justify-content-center" style="padding: 10px"><a class="btn btn-primary btn-block" href="{% url 'view_answer' question.exam.id prev_question.id %}"><i class="fa fa-lg fa-caret-left" aria-hidden="true"></i><i class="fa fa-lg fa-caret-left" aria-hidden="true"></i> Previous</a></div>
+        {% else %}
+        {% endif %}
+
+        <!-- Checks whether there is any next_question -->
+        {% if next_question %}
+        <div class="d-flex justify-content-center" style="padding: 10px"><a class="btn btn-primary btn-block" href="{% url 'view_answer' question.exam.id next_question.id %}">Next <i class="fa fa-lg fa-caret-right" aria-hidden="true"></i><i class="fa fa-lg fa-caret-right" aria-hidden="true"></i></a></div>
+        {% else %}
+        {% endif %}
+    </div>
 
     <div class="col-md-10 "><!-- This will show question, answer and other stuff -->
         <ul class="list-group">
 
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <div id="question_number">{{question.question_number}}</div><hr class="only-mobile-hr">
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-10">
                         <div class="question_body_output"></div><hr class="only-mobile-hr">
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <div id="marks">{{question.marks}} mar{{ question.marks|pluralize:"k,ks" }}</div><br>
                     </div>
                 </div>
@@ -56,7 +78,7 @@
                 Instead, ask them to edit the answer.
                 -->
                 {% if question.author == request.user %}
-                    <a href="{% url 'write_answer' exam_question.exam.pk exam_question.pk %}" class="btn btn-success">
+                    <a href="{% url 'write_answer' question.exam.pk question.pk %}" class="btn btn-success">
                         <i class="fa fa-edit" aria-hidden="true"></i> Edit
                     </a>
                 {% else %}
@@ -71,24 +93,27 @@
                         Seems like you have already voted!
                     </div>
                 {% else %}
-                    <div class="vote_area">
-                        <!-- Vote Button: Yes -->
-                        <form action="./vote/" id="upvote" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="vote_type" value="upvote" />
-                            <button class="btn btn-success" type="submit"> 
-                                <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Yes
-                            </button>
-                        </form>
-
-                        <!-- Vote Button: No -->
-                        <form action="./vote/" id="downvote" method="post">
-                            {% csrf_token %}
-                            <input type="hidden" name="vote_type" value="downvote" />
-                            <button class="btn btn-danger" type="submit"> 
-                                <i class="fa fa-thumbs-o-down" aria-hidden="true"></i> No
-                            </button>
-                        </form>
+                    <div class="vote_area row">
+                        <div class="col-md-1 col-2">
+                            <!-- Vote Button: Yes -->
+                            <form action="./vote/" id="upvote" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="vote_type" value="upvote" />
+                                <button class="btn btn-success" type="submit"> 
+                                    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> Yes
+                                </button>
+                            </form>
+                        </div>
+                        <div class="col-md-1 col-2">
+                            <!-- Vote Button: No -->
+                            <form action="./vote/" id="downvote" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="vote_type" value="downvote" />
+                                <button class="btn btn-danger" type="submit"> 
+                                    <i class="fa fa-thumbs-o-down" aria-hidden="true"></i> No
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 {% endif %}
 
@@ -102,31 +127,16 @@
                 it will be roaming around here.
                 just find it.-->
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#answerFeedback">
-                    <i class="far fa-lightbulb" aria-hidden="true"></i> Yes
+                    <i class="far fa-lightbulb" aria-hidden="true"></i> Provide Feedback
                 </button>
             </div>
             {% endif %}
+            <div class="extra-space"></div>
 
             
         </ul>
     </div>
 
-    <!-- the buttons below breaks when author visits their answer.
-    must be fixed.
-    -->
-    <div class="col-md-2 align-self-center center"><!-- This will show next/previous buttons -->
-        <!-- Checks whether there is any prev_question -->
-        {% if prev_question %}
-        <div class="d-flex justify-content-center" style="padding: 10px"><a class="btn btn-primary" href="../{{prev_question.id}}"><i class="fa fa-lg fa-caret-left" aria-hidden="true"></i><i class="fa fa-lg fa-caret-left" aria-hidden="true"></i> Previous</a></div>
-        {% else %}
-        {% endif %}
-
-        <!-- Checks whether there is any next_question -->
-        {% if next_question %}
-        <div class="d-flex justify-content-center" style="padding: 10px"><a class="btn btn-primary" href="../{{next_question.id}}">Next <i class="fa fa-lg fa-caret-right" aria-hidden="true"></i><i class="fa fa-lg fa-caret-right" aria-hidden="true"></i></a></div>
-        {% else %}
-        {% endif %}
-    </div>
 </div>
 
 <p id="question_body">{{question.question_body}}</p>
