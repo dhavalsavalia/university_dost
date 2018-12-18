@@ -1,5 +1,5 @@
 from django import forms
-from .models import Exam, Question, AnswerFeedback
+from .models import Exam, Question
 from markdownx.fields import MarkdownxFormField
 
 
