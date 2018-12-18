@@ -1,42 +1,48 @@
 {% extends 'base.html' %}
-{% load static i18n %}
+{% load static i18n mathjax %}
 {% block css %}
-    <link href="{% static 'css/exams/submit-result.css' %}" rel="stylesheet">
+<link href="{% static 'css/exams/submit-result.css' %}" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/8.4.1/markdown-it.min.js" integrity="sha256-xPwMubQT+EaVMOh04FjyG49sNwJmmGYpnhWNh4osD5w=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/markdown-it-mathjax@2.0.0/markdown-it-mathjax.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css" integrity="sha256-Ndk1ry+oGNFEaXt4kxlW/SYLbxat1O0DhaDd+lob0SY=" crossorigin="anonymous" />
+{% mathjax_scripts %}
 {% endblock css %}
 
 {% block content %}
+    <h2 class="text-center">{{university}}</h2>
+    <h3 class="text-center">{{course.get_degree_type_display}} - {{course.name}} - {{exam.get_term_display}} {{exam.year}}</h3>
     <ul class="list-group">
-            <p class="lead">Your submission</p>
-            <hr>
-            <li class="list-group-item">University: {{university}}</li>
-            <li class="list-group-item">Course: {{course}}</li>
-            <li class="list-group-item">Subject: {{subject}}</li>
-            <li class="list-group-item">Exam: {{exam}}</li>
-    </ul>
-    <ul class="list-group">
-        <p class="lead">Questions yet to be answered</p>
+        <p class="lead">Subject: {{subject}}</p>
         <hr>
-        {% for exam_question in exam_questions %}
-                    <input type="hidden" name="qpk" value="{{exam_question.pk}}" /> 
-                    <a onclick="document.getElementById('question').submit();">
-                            <li class="list-group-item"><strong>{{exam_question.question_number}}</strong></li>
-                    </a>
+        
+        <div class="row text-center" style="margin-bottom: 40px; border: 0.2px dotted; border-bottom: 0px">
+            <div class="col-md-1">
+                <u>Q#</u>
+            </div>
+            <div class="col-md-10">
+                <u>Question</u>
+            </div>
+            <div class="col-md-1">
+                <u>Marks</u>
+            </div>
+        </div>
 
-        <div class="mdl-cell mdl-cell--12-col mdl-typography-link-style-1" style="margin:0">
-        <a href="./{{exam_question.id}}" class="mdl-color-text--grey-800">
-        <div class="mdl-grid mdl-grid--no-spacing" style="padding:8px 0px">
-        <div class="mdl-cell mdl-cell--9-col mdl-cell--1-offset-desktop mdl-cell--6-col-tablet mdl-cell--3-col-phone">
-        <small>
-        <span class="mdl-typography--font-serif mdl-color-text--black">{{exam_question.question_number}}</span>
-        <span class="mdl-typography--font-serif">{{exam_question.question_body}}</span>
-        </small>
-        </div>
-        <div class="mdl-cell mdl-cell--2-col mdl-cell--1-col-phone mdl-typography--text-center">
-        <small><span class="mdl-typography--font-serif">{{exam_question.marks}} M</span></small>
-        </div>
-        </div>
-        </a>
+        {% for exam_question in exam_questions %}
+        <div class="row" style="margin-bottom: 40px; border: 0.2px dotted;">
+            <div class="col-md-1">
+                <a href="{% url 'view_answer' exam.id exam_question.id %}">{{exam_question.question_number}}</a>
+            </div>
+            <div class="col-md-10 question_body_output">
+            <p id="question_body">{{exam_question.question_body}}</p>
+            </div>
+            <div class="col-md-1">
+                {{exam_question.marks}} M
+            </div>
         </div>
         {% endfor %}
     </ul>
 {% endblock content %}
+
+{% block javascript %}
+<script src="{% static 'js/exams/view_answer.js' %}"></script>
+{% endblock javascript %}

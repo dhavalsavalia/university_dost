@@ -16,6 +16,28 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     slug_field = "username"
     slug_url_kwarg = "username"
 
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+
+        # Add in a QuerySet of all the subjects
+        subjects = Subject.objects.filter(
+            course=self.request.user.course
+            )
+
+        # init list with all the exams
+        all_exams = list()
+
+        # this for loop separates exams by subject
+        # after sorting, it appeds them to all_exams
+        for subject in subjects:
+            exams_of_subject = Exam.objects.filter(subject=subject)
+            all_exams.append(exams_of_subject)
+
+        context['subjects'] = subjects
+        context['all_exams'] = all_exams
+        return context
+
 
 class UserRedirectView(LoginRequiredMixin, RedirectView):
     permanent = False
@@ -27,9 +49,10 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
 
-    fields = ["first_name", "last_name", "university",
-              "semester", "weekly_test"
-              ]
+    fields = [
+        "first_name", "last_name", "university",
+        "semester", "course", "weekly_test"
+    ]
 
     # we already imported User in the view code above, remember?
     model = User

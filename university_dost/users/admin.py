@@ -36,7 +36,7 @@ class MyUserAdmin(AuthUserAdmin):
     add_form = MyUserCreationForm
     fieldsets = (("User Profile",
                  {"fields": ("name", "university", "semester",
-                             "year", "weekly_test"
+                             "course", "year", "weekly_test"
                              )}),) + AuthUserAdmin.fieldsets + (
                                  ("Questions",
                                   {"fields":
