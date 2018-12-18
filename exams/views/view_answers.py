@@ -72,7 +72,8 @@ def view_answer(request, exam_id, question_id):
     if question.downvote == 0 and question.upvote == 0:
         vote_msg = 'No one has voted, yet. Author is sad.'
     elif question.downvote == 0:
-        vote_msg = 'Hooray! Everyone upvoted this answer'
+        vote_msg = '''Hooray! Everyone upvoted this answer.
+                   Was this answer helpful to you?'''
     else:
         upvote_percentage = (
             question.upvote/(question.upvote+question.downvote)
