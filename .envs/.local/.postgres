@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=university_dost
+POSTGRES_USER=ItneYUeFKCNRCCKULKEQqliAxJPsSAam
+POSTGRES_PASSWORD=p0jEjVjIng0UgkKvC6jzbQBedJk7fTUZ4J16l12moBDWBajAdcX2RBbJ6ji5GF08
